@@ -2,7 +2,9 @@ package com.si7agent.digital_neon.model
 
 data class DigitalNeonWatchFaceStyle(
     val font: WatchFaceFont,
-    val theme: WatchFaceTheme
+    val theme: WatchFaceTheme,
+    val dimensions: WatchFaceDimensions,
+    val backgroundImage: WatchFaceBackgroundImage
 )
 
 data class WatchFaceTheme(
@@ -13,6 +15,7 @@ data class WatchFaceTheme(
 data class WatchFaceFont(
     val hourSize: Int,
     val minuteSize: Int,
+    val secondSize: Int,
     val labelSize: Int,
     val fontName: String
 )
