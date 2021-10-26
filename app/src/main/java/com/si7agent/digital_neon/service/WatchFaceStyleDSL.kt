@@ -1,6 +1,7 @@
 package com.si7agent.digital_neon.service
 
 import android.graphics.Color
+import com.si7agent.digital_neon.R
 import com.si7agent.digital_neon.model.DigitalNeonWatchFaceStyle
 import com.si7agent.digital_neon.model.WatchFaceBackgroundImage
 import com.si7agent.digital_neon.model.WatchFaceDimensions
@@ -21,28 +22,28 @@ class WatchFaceFontBuilder(font: Int) {
             "minuteSize" to 55,
             "secondSize" to 30,
             "labelSize" to 16,
-            "fontName" to "main-font-minaeff",
+            "font" to R.font.main_font_minaeff,
         ),
         mutableMapOf(
             "hourSize" to 77,
             "minuteSize" to 55,
             "secondSize" to 30,
             "labelSize" to 13,
-            "fontName" to "main-font-3am",
+            "font" to R.font.main_font_3am,
         ),
         mutableMapOf(
             "hourSize" to 100,
             "minuteSize" to 60,
             "secondSize" to 35,
             "labelSize" to 20,
-            "fontName" to "main-font-basis33",
+            "font" to R.font.main_font_basis33,
         ),
         mutableMapOf(
             "hourSize" to 90,
             "minuteSize" to 52,
             "secondSize" to 30,
             "labelSize" to 18,
-            "fontName" to "main-font-aurach",
+            "font" to R.font.main_font_aurach,
         )
     )
 
@@ -50,7 +51,7 @@ class WatchFaceFontBuilder(font: Int) {
     var minuteSize: Int by availableFonts[fontPicked - 1]
     var secondSize: Int by availableFonts[fontPicked - 1]
     var labelSize: Int by availableFonts[fontPicked - 1]
-    var fontName: String by availableFonts[fontPicked - 1]
+    var font: Int by availableFonts[fontPicked - 1]
 
     fun build(): WatchFaceFont {
         return WatchFaceFont(
@@ -58,7 +59,7 @@ class WatchFaceFontBuilder(font: Int) {
             minuteSize,
             secondSize,
             labelSize,
-            fontName
+            font
         )
     }
 }
@@ -71,19 +72,19 @@ class WatchFaceThemeBuilder(theme: Int) {
     private val availableThemes: Array<MutableMap<String, Any?>> = arrayOf(
         mutableMapOf(
             "labelColor" to Color.argb(255, 255, 255, 255),
-            "themeNamePic" to "theme1/"
+            "themeNamePic" to "theme1"
         ),
         mutableMapOf(
             "labelColor" to Color.argb(255, 255, 0, 0),
-            "themeNamePic" to "theme2/"
+            "themeNamePic" to "theme2"
         ),
         mutableMapOf(
             "labelColor" to Color.argb(255, 98, 27, 194),
-            "themeNamePic" to "theme3/"
+            "themeNamePic" to "theme3"
         ),
         mutableMapOf(
             "labelColor" to Color.argb(255, 62, 188, 44),
-            "themeNamePic" to "theme4/"
+            "themeNamePic" to "theme4"
         )
     )
 
