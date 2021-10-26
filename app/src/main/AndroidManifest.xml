@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.si7agent.digital_neon">
+    package="com.si7agent.digital_neon" >
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.google.android.wearable.permission.RECEIVE_COMPLICATION_DATA" />
@@ -9,21 +9,25 @@
 
     <application
         android:allowBackup="true"
+        android:fullBackupOnly="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@android:style/Theme.DeviceDefault">
+        android:theme="@android:style/Theme.DeviceDefault" >
 
         <meta-data
             android:name="com.google.android.wearable.standalone"
             android:value="true" />
 
-        <service
-            android:name=".MyWatchFace"
-            android:label="@string/my_analog_name"
-            android:permission="android.permission.BIND_WALLPAPER"
-            android:exported="false">
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
+        <service
+            android:name=".DigitalNeonDSL"
+            android:exported="false"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_WALLPAPER" >
             <meta-data
                 android:name="android.service.wallpaper.square_mode"
                 android:value="false" />
@@ -42,10 +46,5 @@
                 <category android:name="com.google.android.wearable.watchface.category.WATCH_FACE" />
             </intent-filter>
         </service>
-
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
     </application>
-
 </manifest>
