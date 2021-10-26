@@ -17,7 +17,7 @@ data class WatchFaceFont(
     val minuteSize: Int,
     val secondSize: Int,
     val labelSize: Int,
-    val fontName: String
+    val font: Int
 )
 
 data class WatchFaceDimensions(
