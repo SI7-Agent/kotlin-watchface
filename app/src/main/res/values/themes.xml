@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<resources>
+    <integer-array name='themes'>
+        <item>@array/theme1</item>
+        <item>@array/theme2</item>
+        <item>@array/theme3</item>
+        <item>@array/theme4</item>
+    </integer-array>
+
+    <integer-array name="theme1">
+        <item>@drawable/theme1_ic_app_manager</item>
+        <item>@drawable/theme1_neon_bg</item>
+        <item>@drawable/theme1_watch</item>
+    </integer-array>
+
+    <integer-array name="theme2">
+        <item>@drawable/theme2_ic_app_manager</item>
+        <item>@drawable/theme2_neon_bg</item>
+        <item>@drawable/theme2_watch</item>
+    </integer-array>
+
+    <integer-array name="theme3">
+        <item>@drawable/theme3_ic_app_manager</item>
+        <item>@drawable/theme3_neon_bg</item>
+        <item>@drawable/theme3_watch</item>
+    </integer-array>
+
+    <integer-array name="theme4">
+        <item>@drawable/theme4_ic_app_manager</item>
+        <item>@drawable/theme4_neon_bg</item>
+        <item>@drawable/theme4_watch</item>
+    </integer-array>
+</resources>
