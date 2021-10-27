@@ -1,0 +1,10 @@
+<resources>
+    <color name='theme1'>#FFFFFF</color>
+    <color name='theme2'>#FF0000</color>
+    <color name='theme3'>#621BC2</color>
+    <color name='theme4'>#3EBC2C</color>
+
+    <color name="hour_shade">#0000FF</color>
+    <color name="minute_shade">#FFFFFF</color>
+    <color name="second_shade">#FFFFFF</color>
+</resources>
