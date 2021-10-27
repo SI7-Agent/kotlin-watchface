@@ -109,6 +109,10 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
         private fun initializeBackground() {
             Log.d(TAG, "initializeBackground: ")
 
+            backgroundPaint = Paint().apply {
+                color = ContextCompat.getColor(applicationContext, R.color.default_bg)
+            }
+
             isBackgroundImageEnabled =
                 digitalNeonWatchFaceStyle.backgroundImage.backgroundImageResource !=
                         WatchFaceBackgroundImage.EMPTY_IMAGE_RESOURCE
@@ -120,38 +124,35 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
                 )
             }
             else {
-                val colors = IntArray(4)
-                colors[0] = 255
-                colors[1] = 255
-                colors[2] = 255
-                colors[3] = 255
-                backgroundBitmap = Bitmap.createBitmap(colors, 360, 360, Bitmap.Config.ALPHA_8)
-            }
-
-            backgroundPaint = Paint().apply {
-                color = Color.BLACK
+                val bitmap = Bitmap.createBitmap(360, 360, Bitmap.Config.ALPHA_8)
+                val canvas = Canvas(bitmap)
+                canvas.drawRect(0f, 0f, 360f, 360f, backgroundPaint)
+                backgroundBitmap = bitmap
             }
         }
 
         private fun initializeWatchFace() {
             hourPaint = Paint().apply {
                 color = ContextCompat.getColor(applicationContext, digitalNeonWatchFaceStyle.theme.labelColor)
-                textSize = digitalNeonWatchFaceStyle.font.hourSize.toFloat()
+                textSize = digitalNeonWatchFaceStyle.font.hourSize.toFloat() * resources.displayMetrics.density
                 textAlign = Paint.Align.CENTER
+                typeface = resources.getFont(digitalNeonWatchFaceStyle.font.font)
                 setShadowLayer(8f, 0f, 0f, ContextCompat.getColor(applicationContext, R.color.hour_shade))
             }
 
             minutePaint = Paint().apply {
                 color = ContextCompat.getColor(applicationContext, digitalNeonWatchFaceStyle.theme.labelColor)
-                textSize = digitalNeonWatchFaceStyle.font.minuteSize.toFloat()
+                textSize = digitalNeonWatchFaceStyle.font.minuteSize.toFloat() * resources.displayMetrics.density
                 textAlign = Paint.Align.CENTER
+                typeface = resources.getFont(digitalNeonWatchFaceStyle.font.font)
                 setShadowLayer(8f, 0f, 0f, ContextCompat.getColor(applicationContext, R.color.minute_shade))
             }
 
             secondPaint = Paint().apply {
                 color = ContextCompat.getColor(applicationContext, digitalNeonWatchFaceStyle.theme.labelColor)
-                textSize = digitalNeonWatchFaceStyle.font.secondSize.toFloat()
+                textSize = digitalNeonWatchFaceStyle.font.secondSize.toFloat() * resources.displayMetrics.density
                 textAlign = Paint.Align.CENTER
+                typeface = resources.getFont(digitalNeonWatchFaceStyle.font.font)
                 setShadowLayer(8f, 0f, 0f, ContextCompat.getColor(applicationContext, R.color.second_shade))
             }
         }

@@ -7,4 +7,6 @@
     <color name="hour_shade">#0000FF</color>
     <color name="minute_shade">#FFFFFF</color>
     <color name="second_shade">#FFFFFF</color>
+
+    <color name="default_bg">#000000</color>
 </resources>
