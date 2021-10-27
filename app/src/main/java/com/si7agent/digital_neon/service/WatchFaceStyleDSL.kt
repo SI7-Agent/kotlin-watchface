@@ -71,19 +71,19 @@ class WatchFaceThemeBuilder(theme: Int) {
 
     private val availableThemes: Array<MutableMap<String, Any?>> = arrayOf(
         mutableMapOf(
-            "labelColor" to Color.argb(255, 255, 255, 255),
+            "labelColor" to R.color.theme1,
             "themeNamePic" to "theme1"
         ),
         mutableMapOf(
-            "labelColor" to Color.argb(255, 255, 0, 0),
+            "labelColor" to R.color.theme2,
             "themeNamePic" to "theme2"
         ),
         mutableMapOf(
-            "labelColor" to Color.argb(255, 98, 27, 194),
+            "labelColor" to R.color.theme3,
             "themeNamePic" to "theme3"
         ),
         mutableMapOf(
-            "labelColor" to Color.argb(255, 62, 188, 44),
+            "labelColor" to R.color.theme4,
             "themeNamePic" to "theme4"
         )
     )
