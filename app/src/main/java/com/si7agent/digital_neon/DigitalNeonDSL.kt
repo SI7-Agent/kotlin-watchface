@@ -19,7 +19,7 @@ class DigitalNeonDSL : AbstractKotlinWatchFace() {
 
             }
             watchFaceBackgroundImage {
-                backgroundImageResource = R.drawable.watchface_service_bg
+                backgroundImageResource = 0//R.drawable.watchface_service_bg
             }
         }
 
