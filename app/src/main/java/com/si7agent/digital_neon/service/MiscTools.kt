@@ -2,6 +2,7 @@ package com.si7agent.digital_neon.service
 
 import android.content.res.Resources
 import android.graphics.*
+import java.lang.Math.abs
 
 class MiscTools {
     fun putImageOnCanvas(canvas: Canvas, image: Bitmap, left: Int, top: Int) {
@@ -52,5 +53,21 @@ class MiscTools {
             (bm.height * scaleY).toInt(),
             true
         )
+    }
+
+    fun intToStr(num: Int, mode: Boolean = true): String {
+        val res: String
+        val sign = if (num >= 0) "" else "-"
+
+        res = if (mode) {
+            when(abs(num) < 10){
+                true -> sign + "0$num"
+                false -> sign + num
+            }
+        } else {
+            sign + num
+        }
+
+        return res
     }
 }
