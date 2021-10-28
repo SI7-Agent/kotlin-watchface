@@ -13,7 +13,9 @@ import android.support.wearable.watchface.CanvasWatchFaceService
 import android.support.wearable.watchface.WatchFaceService
 import android.support.wearable.watchface.WatchFaceStyle
 import android.util.Log
-import android.view.SurfaceHolder
+import android.view.*
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.si7agent.digital_neon.MyWatchFace
 import com.si7agent.digital_neon.R
@@ -30,7 +32,11 @@ private const val LAST_THEME = 4
 
 abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
 
-    protected var currentTheme: Int = 1
+    var specW: Int = 0
+    var specH: Int = 0
+    lateinit var watchLayout: View
+
+    protected var currentTheme: Int = 4
     protected var currentFont: Int = 1
     protected var tools: MiscTools = MiscTools()
 
@@ -57,10 +63,6 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
     }
 
     inner class Engine : CanvasWatchFaceService.Engine() {
-
-        private lateinit var hourPaint: Paint
-        private lateinit var minutePaint: Paint
-        private lateinit var secondPaint: Paint
         //private lateinit var textPaint
 
         private lateinit var themeResources: MutableMap<String, MutableMap<String, Bitmap>>
@@ -101,16 +103,22 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
 
             Log.d(TAG, "onCreate: ")
 
+            initializeLayout()
             initializeThemeImages()
             initializeBackground()
             initializeWatchFace()
+        }
+
+        private fun initializeLayout() {
+            val inflater: LayoutInflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            watchLayout = inflater.inflate(R.layout.watchface_view, null)
         }
 
         private fun initializeBackground() {
             Log.d(TAG, "initializeBackground: ")
 
             backgroundPaint = Paint().apply {
-                color = ContextCompat.getColor(applicationContext, R.color.default_bg)
+                color = ContextCompat.getColor(applicationContext, R.color.default_bg2)
             }
 
             isBackgroundImageEnabled =
@@ -132,29 +140,23 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
         }
 
         private fun initializeWatchFace() {
-            hourPaint = Paint().apply {
-                color = ContextCompat.getColor(applicationContext, digitalNeonWatchFaceStyle.theme.labelColor)
-                textSize = digitalNeonWatchFaceStyle.font.hourSize.toFloat() * resources.displayMetrics.density
-                textAlign = Paint.Align.CENTER
-                typeface = resources.getFont(digitalNeonWatchFaceStyle.font.font)
-                setShadowLayer(8f, 0f, 0f, ContextCompat.getColor(applicationContext, R.color.hour_shade))
-            }
+            val hourText = watchLayout.findViewById<TextView>(R.id.hourTextView)
+            hourText.typeface = resources.getFont(digitalNeonWatchFaceStyle.font.font)
+            hourText.textSize = digitalNeonWatchFaceStyle.font.hourSize.toFloat()
+            hourText.setTextColor(ContextCompat.getColor(applicationContext, digitalNeonWatchFaceStyle.theme.labelColor))
+            hourText.setShadowLayer(8f, 0f, 0f, ContextCompat.getColor(applicationContext, R.color.hour_shade))
 
-            minutePaint = Paint().apply {
-                color = ContextCompat.getColor(applicationContext, digitalNeonWatchFaceStyle.theme.labelColor)
-                textSize = digitalNeonWatchFaceStyle.font.minuteSize.toFloat() * resources.displayMetrics.density
-                textAlign = Paint.Align.CENTER
-                typeface = resources.getFont(digitalNeonWatchFaceStyle.font.font)
-                setShadowLayer(8f, 0f, 0f, ContextCompat.getColor(applicationContext, R.color.minute_shade))
-            }
+            val minuteText = watchLayout.findViewById<TextView>(R.id.minuteTextView)
+            minuteText.typeface = resources.getFont(digitalNeonWatchFaceStyle.font.font)
+            minuteText.textSize = digitalNeonWatchFaceStyle.font.minuteSize.toFloat()
+            minuteText.setTextColor(ContextCompat.getColor(applicationContext, digitalNeonWatchFaceStyle.theme.labelColor))
+            //minuteText.setShadowLayer(8f, 0f, 0f, ContextCompat.getColor(applicationContext, R.color.minute_shade))
 
-            secondPaint = Paint().apply {
-                color = ContextCompat.getColor(applicationContext, digitalNeonWatchFaceStyle.theme.labelColor)
-                textSize = digitalNeonWatchFaceStyle.font.secondSize.toFloat() * resources.displayMetrics.density
-                textAlign = Paint.Align.CENTER
-                typeface = resources.getFont(digitalNeonWatchFaceStyle.font.font)
-                setShadowLayer(8f, 0f, 0f, ContextCompat.getColor(applicationContext, R.color.second_shade))
-            }
+            val secondText = watchLayout.findViewById<TextView>(R.id.secondTextView)
+            secondText.typeface = resources.getFont(digitalNeonWatchFaceStyle.font.font)
+            secondText.textSize = digitalNeonWatchFaceStyle.font.secondSize.toFloat()
+            secondText.setTextColor(ContextCompat.getColor(applicationContext, digitalNeonWatchFaceStyle.theme.labelColor))
+            //secondText.setShadowLayer(8f, 0f, 0f, ContextCompat.getColor(applicationContext, R.color.second_shade))
         }
 
         private fun initializeThemeImages() {
@@ -168,7 +170,6 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
                 val themeResourcesBitmaps = mutableMapOf(
                     "ic_app_launcher" to tools.createBitmapFromId(resources, themeResourcesIndexes[0]),
                     "neon_bg" to tools.createBitmapFromId(resources, themeResourcesIndexes[1]),
-                    "second_mover" to tools.createBitmapFromId(resources, themeResourcesIndexes[1]),
                     "watch" to tools.createBitmapFromId(resources, themeResourcesIndexes[2]),
                 )
 
@@ -206,9 +207,9 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
 
             if (muteMode != inMuteMode) {
                 muteMode = inMuteMode
-                hourPaint.alpha = if (inMuteMode) 100 else 255
-                minutePaint.alpha = if (inMuteMode) 100 else 255
-                secondPaint.alpha = if (inMuteMode) 80 else 255
+                //hourPaint.alpha = if (inMuteMode) 100 else 255
+                //minutePaint.alpha = if (inMuteMode) 100 else 255
+                //secondPaint.alpha = if (inMuteMode) 80 else 255
                 invalidate()
             }
         }
@@ -224,7 +225,6 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
             val scale = width.toFloat() / backgroundBitmap.width.toFloat()
             val icAppLauncherScale = scale * 0.1225f
             val neonBgScale = scale * 1.1f
-            val secondMoverScale = scale * 0.5f
 
             if (isBackgroundImageEnabled)
             {
@@ -246,12 +246,6 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
                     tools.scaleBitmap(neonBg, neonBgScale, neonBgScale)
                 }?.let { neonBgScaled ->
                     themeResources[i]?.set("neon_bg", neonBgScaled)
-                }
-
-                themeResources[i]?.get("second_mover")?.let { secondMover ->
-                    tools.scaleBitmap(secondMover, secondMoverScale, secondMoverScale)
-                }?.let { secondMoverScaled ->
-                    themeResources[i]?.set("second_mover", secondMoverScaled)
                 }
 
                 themeResources[i]?.get("watch")?.let { watch ->
@@ -294,80 +288,57 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
         }
 
         private fun drawWatchFace(canvas: Canvas) {
+            setGraphic()
+            setTime()
+
+            watchLayout.measure(specW, specH)
+            watchLayout.layout(0, 0, watchLayout.measuredWidth, watchLayout.measuredHeight)
+            watchLayout.draw(canvas)
+        }
+
+        private fun setGraphic() {
             val icAppLauncher = themeResources[digitalNeonWatchFaceStyle.theme.themeNamePic]?.get("ic_app_launcher")
             val neonBg = themeResources[digitalNeonWatchFaceStyle.theme.themeNamePic]?.get("neon_bg")
-            val secondMover = themeResources[digitalNeonWatchFaceStyle.theme.themeNamePic]?.get("second_mover")
             val watch = themeResources[digitalNeonWatchFaceStyle.theme.themeNamePic]?.get("watch")
 
-            // placement of graphic parts
+            val appLauncherImageView = watchLayout.findViewById<ImageView>(R.id.appLauncherImageView)
+            appLauncherImageView.setImageBitmap(icAppLauncher)
 
-            if (icAppLauncher != null) {
-                screenSize["width"]?.times(0.5f)?.let { left ->
-                    (screenSize["height"]?.times(0.15f))?.let { top ->
-                        tools.putImageOnCanvas(canvas, icAppLauncher,
-                            (left - icAppLauncher.width * 0.5f).toInt(), (top - icAppLauncher.width * 0.5f).toInt())
-                    }
-                }
-            }
+            val neonBgDayZoneImageView = watchLayout.findViewById<ImageView>(R.id.neonBgDayZoneImageView)
+            neonBgDayZoneImageView.setImageBitmap(neonBg)
 
-            if (neonBg != null) {
-                screenSize["width"]?.times(0.25f)?.let { left ->
-                    (screenSize["height"]?.times(0.77f))?.let { top ->
-                        tools.putImageOnCanvas(canvas, neonBg,
-                            (left - neonBg.width * 0.5f).toInt(), (top - neonBg.width * 0.5f).toInt())
-                    }
-                }
+            val neonBgHrmZoneImageView = watchLayout.findViewById<ImageView>(R.id.neonBgHrmZoneImageView)
+            neonBgHrmZoneImageView.setImageBitmap(neonBg)
 
-                screenSize["width"]?.times(0.75f)?.let { left ->
-                    (screenSize["height"]?.times(0.77f))?.let { top ->
-                        tools.putImageOnCanvas(canvas, neonBg,
-                            (left - neonBg.width * 0.5f).toInt(), (top - neonBg.width * 0.5f).toInt())
-                    }
-                }
+            val neonBgStepZoneImageView = watchLayout.findViewById<ImageView>(R.id.neonBgStepZoneImageView)
+            neonBgStepZoneImageView.setImageBitmap(neonBg)
 
-                screenSize["width"]?.times(0.87f)?.let { left ->
-                    (screenSize["height"]?.times(0.5f))?.let { top ->
-                        tools.putImageOnCanvas(canvas, neonBg,
-                            (left - neonBg.width * 0.5f).toInt(), (top - neonBg.width * 0.5f).toInt())
-                    }
-                }
-            }
+            val secondMoverImageView = watchLayout.findViewById<ImageView>(R.id.secondMoverImageView)
+            secondMoverImageView.setImageBitmap(neonBg)
 
-            if (watch != null) {
-                tools.putImageOnCanvas(canvas, watch, 0, 0)
-                //putImageOnCanvas(canvas, watch, 0, 0) - rotated by 30 degrees
-                //putImageOnCanvas(canvas, watch, 0, 0) - rotated by 60 degrees
-            }
+            val watchZero = watchLayout.findViewById<ImageView>(R.id.watchZeroImageView)
+            watchZero.setImageBitmap(watch)
 
-            if (secondMover != null) {
-                screenSize["width"]?.times(0.5f)?.let { left ->
-                        tools.putImageOnCanvas(canvas, secondMover,
-                            (left - secondMover.width * 0.5f).toInt(), 0)
-                }
-            }
+            val watchThirty = watchLayout.findViewById<ImageView>(R.id.watchThirtyImageView)
+            watchThirty.setImageBitmap(watch)
 
-            // placement of text parts
+            val watchSixty = watchLayout.findViewById<ImageView>(R.id.watchSixtyImageView)
+            watchSixty.setImageBitmap(watch)
+        }
 
-            val hour = calendar.get(Calendar.HOUR)
-            val minute = calendar.get(Calendar.MINUTE)
-            val second = calendar.get(Calendar.SECOND)
+        private fun setTime() {
+            val hourText = watchLayout.findViewById<TextView>(R.id.hourTextView)
+            hourText.text = tools.intToStr(calendar.get(Calendar.HOUR_OF_DAY))
 
-            Log.d(
-                TAG, "hour: ${hour}\n" +
-                    "minute: ${minute}\n" +
-                    "second: ${second}\n")
+            val minuteText = watchLayout.findViewById<TextView>(R.id.minuteTextView)
+            minuteText.text = tools.intToStr(calendar.get(Calendar.MINUTE))
 
-            tools.putTextOnCanvas(canvas, hour.toString(),
-                (screenSize["width"]!! * 0.33).toInt(),
-                (screenSize["width"]!! * 0.5).toInt(), hourPaint)
+            val secondText = watchLayout.findViewById<TextView>(R.id.secondTextView)
+            secondText.text = tools.intToStr(calendar.get(Calendar.SECOND))
+        }
 
-            tools.putTextOnCanvas(canvas, minute.toString(),
-                (screenSize["width"]!! * 0.66).toInt(),
-                (screenSize["width"]!! * 0.3).toInt(), minutePaint)
+        private fun setDate() {
 
-            tools.putTextOnCanvas(canvas, second.toString(),
-                (screenSize["width"]!! * 0.66).toInt(),
-                (screenSize["width"]!! * 0.7).toInt(), secondPaint)
         }
 
         override fun onVisibilityChanged(visible: Boolean) {
@@ -384,6 +355,13 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
 
             /* Check and trigger whether or not timer should be running (only in active mode). */
             updateTimer()
+        }
+
+        override fun onApplyWindowInsets(insets: WindowInsets) {
+            super.onApplyWindowInsets(insets)
+
+            specW = View.MeasureSpec.makeMeasureSpec(screenSize["width"]!!, View.MeasureSpec.EXACTLY)
+            specH = View.MeasureSpec.makeMeasureSpec(screenSize["height"]!!, View.MeasureSpec.EXACTLY)
         }
 
         private fun changeFont() {

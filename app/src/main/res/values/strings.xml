@@ -1,5 +1,21 @@
 <resources>
     <string name="app_name">Digital Neon</string>
     <string name="message">Watch face tapped</string>
-    <string name="my_analog_name">My Analog</string>
+    <string name="my_digital_name">My Digital</string>
+
+    <string name="debug_tag">Digital_Neon_Debug_Tag</string>
+
+    <string name="default_hour_label">00</string>
+    <string name="default_minute_label">00</string>
+    <string name="default_second_label">00</string>
+    <string name="default_day_label">00</string>
+    <string name="default_hrm_label">0</string>
+    <string name="default_step_label">0</string>
+
+    <string name="watch_description">Image for presenting seconds in analog style</string>
+    <string name="second_mover_description">Image for presenting a second hand</string>
+    <string name="neon_bg_day_zone_description">Background image of day zone</string>
+    <string name="neon_bg_hrm_zone_description">Background image of hrm zone</string>
+    <string name="neon_bg_step_zone_description">Background image of made steps zone</string>
+    <string name="app_launcher_description">Recent applications icon</string>
 </resources>

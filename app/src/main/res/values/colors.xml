@@ -1,12 +1,14 @@
 <resources>
-    <color name='theme1'>#FFFFFF</color>
-    <color name='theme2'>#FF0000</color>
-    <color name='theme3'>#621BC2</color>
-    <color name='theme4'>#3EBC2C</color>
+    <color name='theme1'>#FFFFFFFF</color>
+    <color name='theme2'>#FFFF0000</color>
+    <color name='theme3'>#FF621BC2</color>
+    <color name='theme4'>#FF3EBC2C</color>
 
-    <color name="hour_shade">#0000FF</color>
-    <color name="minute_shade">#FFFFFF</color>
-    <color name="second_shade">#FFFFFF</color>
+    <color name="hour_shade">#FF0000FF</color>
+    <color name="minute_shade">#FFFFFFFF</color>
+    <color name="second_shade">#FFFFFFFF</color>
 
-    <color name="default_bg">#000000</color>
+    <color name="default_bg">#FF000000</color>
+    <color name="default_bg2">#FFFFFFFF</color>
+    <color name="default_debug_bg">#30FF0000</color>
 </resources>
