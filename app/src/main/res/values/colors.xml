@@ -11,4 +11,10 @@
     <color name="default_bg">#FF000000</color>
     <color name="default_bg2">#FFFFFFFF</color>
     <color name="default_debug_bg">#30FF0000</color>
+
+    <color name="battery_full">#0DFC35</color>
+    <color name="battery_high">#12C42C</color>
+    <color name="battery_middle">#BAC42C</color>
+    <color name="battery_empty">#800925</color>
+    <color name="battery_charging">#15CEEB</color>
 </resources>

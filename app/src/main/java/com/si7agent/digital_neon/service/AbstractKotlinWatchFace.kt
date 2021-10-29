@@ -181,6 +181,11 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
             hrmText.typeface = resources.getFont(digitalNeonWatchFaceStyle.font.font)
             hrmText.textSize = digitalNeonWatchFaceStyle.font.labelSize.toFloat()
             hrmText.setTextColor(ContextCompat.getColor(applicationContext, digitalNeonWatchFaceStyle.theme.labelColor))
+
+            val batteryText = watchLayout.findViewById<TextView>(R.id.batteryTextView)
+            batteryText.typeface = resources.getFont(digitalNeonWatchFaceStyle.font.font)
+            batteryText.textSize = digitalNeonWatchFaceStyle.font.labelSize.toFloat()
+            batteryText.setTextColor(ContextCompat.getColor(applicationContext, R.color.battery_charging))
         }
 
         private fun initializeThemeImages() {

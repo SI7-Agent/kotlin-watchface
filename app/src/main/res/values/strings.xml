@@ -13,6 +13,7 @@
     <string name="default_month_label">January</string>
     <string name="default_hrm_label">000</string>
     <string name="default_step_label">000000</string>
+    <string name="default_battery_label">100%</string>
 
     <string name="watch_description">Image for presenting seconds in analog style</string>
     <string name="second_mover_description">Image for presenting a second hand</string>
@@ -20,4 +21,6 @@
     <string name="neon_bg_hrm_zone_description">Background image of hrm zone</string>
     <string name="neon_bg_step_zone_description">Background image of made steps zone</string>
     <string name="app_launcher_description">Recent applications icon</string>
+    <string name="step_icon_description">Step icon</string>
+    <string name="hrm_icon_description">Hrm icon</string>
 </resources>

@@ -78,6 +78,7 @@
         android:layout_alignTop="@id/neonBgStepZoneImageView"
         android:layout_marginStart="3dp"
         android:layout_marginTop="2dp"
+        android:contentDescription="@string/step_icon_description"
         android:src="@drawable/ic_walking" />
 
     <TextView
@@ -112,6 +113,7 @@
         android:layout_alignTop="@id/neonBgHrmZoneImageView"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
+        android:contentDescription="@string/hrm_icon_description"
         android:src="@drawable/ic_heart" />
 
     <TextView
@@ -216,14 +218,25 @@
                     android:id="@+id/secondTextView"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:text="@string/default_minute_label"
+                    android:text="@string/default_second_label"
                     android:textAlignment="center"
                     android:textSize="20dp"
                     android:textColor="@color/theme1"
                     android:gravity="center" />
             </LinearLayout>
         </LinearLayout>
-
     </FrameLayout>
 
+    <TextView
+        android:id="@+id/batteryTextView"
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/default_battery_label"
+        android:textSize="15dp"
+        android:textColor="@color/battery_charging"
+        android:layout_alignBottom="@id/watchZeroImageView"
+        android:layout_marginBottom="10dp"
+        android:textAlignment="center"
+        android:gravity="center" />
 </RelativeLayout>
