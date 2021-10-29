@@ -17,7 +17,6 @@ import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import com.si7agent.digital_neon.MyWatchFace
 import com.si7agent.digital_neon.R
 import com.si7agent.digital_neon.model.DigitalNeonWatchFaceStyle
 import com.si7agent.digital_neon.model.WatchFaceBackgroundImage
@@ -157,6 +156,31 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
             secondText.textSize = digitalNeonWatchFaceStyle.font.secondSize.toFloat()
             secondText.setTextColor(ContextCompat.getColor(applicationContext, digitalNeonWatchFaceStyle.theme.labelColor))
             //secondText.setShadowLayer(8f, 0f, 0f, ContextCompat.getColor(applicationContext, R.color.second_shade))
+
+            val dayText = watchLayout.findViewById<TextView>(R.id.dayTextView)
+            dayText.typeface = resources.getFont(digitalNeonWatchFaceStyle.font.font)
+            dayText.textSize = digitalNeonWatchFaceStyle.font.labelSize.toFloat()
+            dayText.setTextColor(ContextCompat.getColor(applicationContext, R.color.default_bg))
+
+            val monthText = watchLayout.findViewById<TextView>(R.id.monthTextView)
+            monthText.typeface = resources.getFont(digitalNeonWatchFaceStyle.font.font)
+            monthText.textSize = digitalNeonWatchFaceStyle.font.labelSize.toFloat()
+            monthText.setTextColor(ContextCompat.getColor(applicationContext, digitalNeonWatchFaceStyle.theme.labelColor))
+
+            val weekDayText = watchLayout.findViewById<TextView>(R.id.weekDayTextView)
+            weekDayText.typeface = resources.getFont(digitalNeonWatchFaceStyle.font.font)
+            weekDayText.textSize = digitalNeonWatchFaceStyle.font.labelSize.toFloat()
+            weekDayText.setTextColor(ContextCompat.getColor(applicationContext, digitalNeonWatchFaceStyle.theme.labelColor))
+
+            val stepText = watchLayout.findViewById<TextView>(R.id.stepTextView)
+            stepText.typeface = resources.getFont(digitalNeonWatchFaceStyle.font.font)
+            stepText.textSize = digitalNeonWatchFaceStyle.font.labelSize.toFloat()
+            stepText.setTextColor(ContextCompat.getColor(applicationContext, digitalNeonWatchFaceStyle.theme.labelColor))
+
+            val hrmText = watchLayout.findViewById<TextView>(R.id.hrmTextView)
+            hrmText.typeface = resources.getFont(digitalNeonWatchFaceStyle.font.font)
+            hrmText.textSize = digitalNeonWatchFaceStyle.font.labelSize.toFloat()
+            hrmText.setTextColor(ContextCompat.getColor(applicationContext, digitalNeonWatchFaceStyle.theme.labelColor))
         }
 
         private fun initializeThemeImages() {
@@ -188,7 +212,8 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
         }
 
         override fun onTimeTick() {
-
+            super.onTimeTick()
+            invalidate()
         }
 
         override fun onAmbientModeChanged(inAmbientMode: Boolean) {

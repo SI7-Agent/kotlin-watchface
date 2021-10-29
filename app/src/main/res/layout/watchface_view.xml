@@ -32,10 +32,10 @@
         android:id="@+id/appLauncherImageView"
         android:layout_width="26dp"
         android:layout_height="26dp"
-        android:layout_marginTop="19dp"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/theme1_ic_app_manager"
-        android:contentDescription="@string/app_launcher_description" />
+        android:layout_marginTop="19dp"
+        android:contentDescription="@string/app_launcher_description"
+        android:src="@drawable/theme1_ic_app_manager" />
 
     <ImageView
         android:id="@+id/neonBgDayZoneImageView"
@@ -44,28 +44,88 @@
         android:layout_alignEnd="@id/clock"
         android:layout_centerVertical="true"
         android:layout_marginEnd="-25dp"
-        android:src="@drawable/theme1_neon_bg"
-        android:contentDescription="@string/neon_bg_day_zone_description" />
+        android:contentDescription="@string/neon_bg_day_zone_description"
+        android:src="@drawable/theme1_neon_bg" />
+
+    <TextView
+        android:id="@+id/dayTextView"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignStart="@id/neonBgDayZoneImageView"
+        android:layout_alignTop="@id/neonBgDayZoneImageView"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:text="@string/default_day_label"
+        android:textColor="@color/default_bg"
+        android:textSize="15dp" />
 
     <ImageView
         android:id="@+id/neonBgStepZoneImageView"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_alignBottom="@id/clock"
         android:layout_alignStart="@id/clock"
-        android:layout_marginBottom="-25dp"
-        android:src="@drawable/theme1_neon_bg"
-        android:contentDescription="@string/neon_bg_step_zone_description" />
+        android:layout_alignBottom="@id/clock"
+        android:layout_marginStart="-2dp"
+        android:layout_marginBottom="-30dp"
+        android:contentDescription="@string/neon_bg_step_zone_description"
+        android:src="@drawable/theme1_neon_bg" />
+
+    <ImageView
+        android:id="@+id/stepIconImageView"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignStart="@id/neonBgStepZoneImageView"
+        android:layout_alignTop="@id/neonBgStepZoneImageView"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="2dp"
+        android:src="@drawable/ic_walking" />
+
+    <TextView
+        android:id="@+id/stepTextView"
+        android:layout_width="51dp"
+        android:layout_height="30dp"
+        android:layout_alignStart="@id/neonBgStepZoneImageView"
+        android:layout_alignTop="@id/neonBgStepZoneImageView"
+        android:layout_marginStart="30dp"
+        android:gravity="center"
+        android:text="@string/default_step_label"
+        android:textAlignment="center"
+        android:textColor="@color/theme1"
+        android:textSize="15dp" />
 
     <ImageView
         android:id="@+id/neonBgHrmZoneImageView"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_alignBottom="@id/clock"
         android:layout_alignEnd="@id/clock"
-        android:layout_marginBottom="-25dp"
-        android:src="@drawable/theme1_neon_bg"
-        android:contentDescription="@string/neon_bg_hrm_zone_description" />
+        android:layout_alignBottom="@id/clock"
+        android:layout_marginEnd="-2dp"
+        android:layout_marginBottom="-30dp"
+        android:contentDescription="@string/neon_bg_hrm_zone_description"
+        android:src="@drawable/theme1_neon_bg" />
+
+    <ImageView
+        android:id="@+id/hrmIconImageView"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignStart="@id/neonBgHrmZoneImageView"
+        android:layout_alignTop="@id/neonBgHrmZoneImageView"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="2dp"
+        android:src="@drawable/ic_heart" />
+
+    <TextView
+        android:id="@+id/hrmTextView"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignStart="@id/neonBgHrmZoneImageView"
+        android:layout_alignTop="@id/neonBgHrmZoneImageView"
+        android:layout_marginStart="-30dp"
+        android:gravity="center"
+        android:text="@string/default_hrm_label"
+        android:textAlignment="center"
+        android:textColor="@color/theme1"
+        android:textSize="15dp" />
 
     <ImageView
         android:id="@+id/secondMoverImageView"
@@ -74,6 +134,41 @@
         android:layout_centerHorizontal="true"
         android:src="@drawable/theme1_neon_bg"
         android:contentDescription="@string/second_mover_description" />
+
+    <FrameLayout
+        android:id="@+id/date"
+        android:layout_width="138dp"
+        android:layout_height="20dp"
+
+        android:layout_centerHorizontal="true"
+        android:layout_alignBottom="@id/appLauncherImageView"
+
+        android:layout_marginBottom="-20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/monthTextView"
+                android:layout_width="69dp"
+                android:layout_height="match_parent"
+                android:text="@string/default_month_label"
+                android:textSize="15dp"
+                android:textColor="@color/theme1"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/weekDayTextView"
+                android:layout_width="69dp"
+                android:layout_height="match_parent"
+                android:text="@string/default_week_day_label"
+                android:textSize="15dp"
+                android:textColor="@color/theme1"
+                android:textAlignment="center" />
+        </LinearLayout>
+    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/clock"
