@@ -1,11 +1,8 @@
 package com.si7agent.digital_neon.service
 
 import android.content.Context
-import android.content.res.Resources
 import android.graphics.*
-import android.util.Log
 import com.si7agent.digital_neon.R
-import java.lang.Math.abs
 
 enum class Zones {
     APPLAUNCHER_TOUCH_ZONE,
@@ -79,7 +76,7 @@ class MiscTools(context: Context) {
         val sign = if (num >= 0) "" else "-"
 
         res = if (mode) {
-            when(abs(num) < 10){
+            when(kotlin.math.abs(num) < 10) {
                 true -> sign + "0$num"
                 false -> sign + num
             }
@@ -90,7 +87,7 @@ class MiscTools(context: Context) {
         return res
     }
 
-    fun defineTouchZone(xDP: Int, yDP: Int, screenCenter: Pair<Int, Int>): com.si7agent.digital_neon.service.Zones {
+    fun defineTouchZone(xDP: Int, yDP: Int, screenCenter: Pair<Int, Int>): Zones {
         val appLauncherLeft = screenCenter.first-pxToDp(c.resources.getDimension(R.dimen.app_launcher_icon_width))/2
         val appLauncherRight = appLauncherLeft+pxToDp(c.resources.getDimension(R.dimen.app_launcher_icon_width))
         val appLauncherTop = pxToDp(c.resources.getDimension(R.dimen.app_launcher_icon_marginTop))
@@ -103,16 +100,16 @@ class MiscTools(context: Context) {
 
         val stepLeft = timeLeft+pxToDp(c.resources.getDimension(R.dimen.step_zone_marginStart))
         val stepRight = stepLeft+pxToDp(c.resources.getDimension(R.dimen.neon_bg_icon_width))
-        val stepTop = timeBottom
-        val stepBottom = stepTop+pxToDp(c.resources.getDimension(R.dimen.neon_bg_icon_height))
+        // stepTop is same as timeBottom
+        val stepBottom = timeBottom+pxToDp(c.resources.getDimension(R.dimen.neon_bg_icon_height))
 
         val hrmLeft = timeRight-pxToDp(c.resources.getDimension(R.dimen.hrm_zone_marginEnd))-pxToDp(c.resources.getDimension(R.dimen.neon_bg_icon_width))
         val hrmRight = hrmLeft+pxToDp(c.resources.getDimension(R.dimen.neon_bg_icon_width))
-        val hrmTop = timeBottom
-        val hrmBottom = hrmTop+pxToDp(c.resources.getDimension(R.dimen.neon_bg_icon_height))
+        //hrmTop is same as timeBottom
+        val hrmBottom = timeBottom+pxToDp(c.resources.getDimension(R.dimen.neon_bg_icon_height))
 
-        val dayLeft = timeRight
-        val dayRight = dayLeft+pxToDp(c.resources.getDimension(R.dimen.neon_bg_icon_width))
+        // dayLeft is same as timeRight
+        val dayRight = timeRight+pxToDp(c.resources.getDimension(R.dimen.neon_bg_icon_width))
         val dayTop = screenCenter.second-pxToDp(c.resources.getDimension(R.dimen.neon_bg_icon_height))/2
         val dayBottom = dayTop+pxToDp(c.resources.getDimension(R.dimen.neon_bg_icon_height))
 
@@ -129,7 +126,7 @@ class MiscTools(context: Context) {
             if (yDP in dateTop..dateBottom)
                 return Zones.DATE_TOUCH_ZONE
 
-        if (xDP in dayLeft..dayRight)
+        if (xDP in timeRight..dayRight)
             if (yDP in dayTop..dayBottom)
                 return Zones.DAY_TOUCH_ZONE
 
@@ -138,11 +135,11 @@ class MiscTools(context: Context) {
                 return Zones.TIME_TOUCH_ZONE
 
         if (xDP in stepLeft..stepRight)
-            if (yDP in stepTop..stepBottom)
+            if (yDP in timeBottom..stepBottom)
                 return Zones.STEP_TOUCH_ZONE
 
         if (xDP in hrmLeft..hrmRight)
-            if (yDP in hrmTop..hrmBottom)
+            if (yDP in timeBottom..hrmBottom)
                 return Zones.HRM_TOUCH_ZONE
 
         return Zones.BG_TOUCH_ZONE
@@ -150,11 +147,11 @@ class MiscTools(context: Context) {
 
     fun pxToDp(px: Float): Int {
         val density = c.resources.displayMetrics.density
-        return (px/density).toInt();
+        return (px/density).toInt()
     }
 
     fun dpToPx(dp: Float): Int {
         val density = c.resources.displayMetrics.density
-        return (dp*density).toInt();
+        return (dp*density).toInt()
     }
 }
