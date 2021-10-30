@@ -39,7 +39,7 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
 
     protected var currentTheme: Int = 4
     protected var currentFont: Int = 1
-    protected var tools: MiscTools = MiscTools()
+    protected var tools: MiscTools = MiscTools(this@AbstractKotlinWatchFace)
 
     private var TAG = "digital_neon"
 
@@ -194,14 +194,14 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
             themeResources = mutableMapOf()
             var state = 1
 
-            for (i in tools.getIndexesFromTypedArray(resources, R.array.themes)) {
+            for (i in tools.getIndexesFromTypedArray(R.array.themes)) {
                 val currentTheme = "theme$state"
 
-                val themeResourcesIndexes = tools.getIndexesFromTypedArray(resources, i)
+                val themeResourcesIndexes = tools.getIndexesFromTypedArray(i)
                 val themeResourcesBitmaps = mutableMapOf(
-                    "ic_app_launcher" to tools.createBitmapFromId(resources, themeResourcesIndexes[0]),
-                    "neon_bg" to tools.createBitmapFromId(resources, themeResourcesIndexes[1]),
-                    "watch" to tools.createBitmapFromId(resources, themeResourcesIndexes[2]),
+                    "ic_app_launcher" to tools.createBitmapFromId(themeResourcesIndexes[0]),
+                    "neon_bg" to tools.createBitmapFromId(themeResourcesIndexes[1]),
+                    "watch" to tools.createBitmapFromId(themeResourcesIndexes[2]),
                 )
 
                 themeResources[currentTheme] = themeResourcesBitmaps
@@ -426,9 +426,7 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
 
         override fun onTapCommand(tapType: Int, x: Int, y: Int, eventTime: Long) {
             when (tapType) {
-                WatchFaceService.TAP_TYPE_TOUCH -> {/* unused */
-                    Log.d(TAG, "onTapCommand: ${x}, ${y}")
-
+                WatchFaceService.TAP_TYPE_TOUCH -> {
                     if (timeStart == 0L) {
                         //первое нажатие
                         timeStart = eventTime
@@ -439,17 +437,28 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
                         if (delay > DOUBLE_TAP_DELAY) {
                             //одиночное нажатие 2
                             timeStart = timeEnd
-                            timeEnd = 0
+                            timeEnd = 0L
                         } else {
                             //двойное нажатие
-                            timeStart = 0
-                            timeEnd = 0
+                            timeStart = 0L
+                            timeEnd = 0L
 
-                            val xDP = x / resources.displayMetrics.density;
-                            val yDP = y / resources.displayMetrics.density;
+                            val density = resources.displayMetrics.density
+                            val xDP = x / density
+                            val yDP = y / density
 
-                            Log.d(TAG, "onTapCommand: ${xDP}, ${yDP}")
-
+                            when (tools.defineTouchZone(xDP.toInt(),
+                                                        yDP.toInt(),
+                                                        Pair(tools.pxToDp((screenSize["width"]!!/2).toFloat()),
+                                                            tools.pxToDp((screenSize["height"]!!/2).toFloat())))) {
+                                Zones.APPLAUNCHER_TOUCH_ZONE -> Log.d(TAG, "onTapCommand: TAPPED APPLAUNCHER")
+                                Zones.DATE_TOUCH_ZONE -> Log.d(TAG, "onTapCommand: TAPPED DATE")
+                                Zones.DAY_TOUCH_ZONE -> Log.d(TAG, "onTapCommand: TAPPED DAY")
+                                Zones.TIME_TOUCH_ZONE -> Log.d(TAG, "onTapCommand: TAPPED TIME")
+                                Zones.STEP_TOUCH_ZONE -> Log.d(TAG, "onTapCommand: TAPPED STEP")
+                                Zones.HRM_TOUCH_ZONE -> Log.d(TAG, "onTapCommand: TAPPED HRM")
+                                else -> Log.d(TAG, "onTapCommand: TAPPED BG")
+                            }
                         }
                     }
                 }
