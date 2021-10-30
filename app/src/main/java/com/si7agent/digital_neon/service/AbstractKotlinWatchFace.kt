@@ -320,6 +320,7 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
         private fun drawWatchFace(canvas: Canvas) {
             setGraphic()
             setTime()
+            setDate()
 
             watchLayout.measure(specW, specH)
             watchLayout.layout(0, 0, watchLayout.measuredWidth, watchLayout.measuredHeight)
@@ -368,7 +369,14 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
         }
 
         private fun setDate() {
+            val weekDayText = watchLayout.findViewById<TextView>(R.id.weekDayTextView)
+            weekDayText.text = resources.getStringArray(R.array.week_days)[calendar.get(Calendar.DAY_OF_WEEK) - 1]
 
+            val monthText = watchLayout.findViewById<TextView>(R.id.monthTextView)
+            monthText.text = resources.getStringArray(R.array.months)[calendar.get(Calendar.MONTH)]
+
+            val dayText = watchLayout.findViewById<TextView>(R.id.dayTextView)
+            dayText.text = calendar.get(Calendar.DAY_OF_MONTH).toString()
         }
 
         override fun onVisibilityChanged(visible: Boolean) {
