@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="app_launcher_icon_width">26dp</dimen>
+    <dimen name="app_launcher_icon_height">26dp</dimen>
+    <dimen name="app_launcher_icon_marginTop">19dp</dimen>
+<!--    WARNING
+        If changing neon_bg_icon_width, you must
+        Change either hrm_text_marginStart
+        With the same value of negative sign-->
+    <dimen name="neon_bg_icon_width">30dp</dimen>
+    <dimen name="neon_bg_icon_height">30dp</dimen>
+    <dimen name="neon_bg_second_mover_icon_width">12dp</dimen>
+    <dimen name="neon_bg_second_mover_icon_height">12dp</dimen>
+    <dimen name="in_neon_bg_icon_width">24dp</dimen>
+    <dimen name="in_neon_bg_icon_height">24dp</dimen>
+    <dimen name="in_neon_bg_icon_marginTop">3dp</dimen>
+    <dimen name="in_neon_bg_icon_marginStart">3dp</dimen>
+
+    <dimen name="step_zone_marginStart">-3dp</dimen>
+    <dimen name="step_zone_marginBottom">-30dp</dimen>
+    <dimen name="hrm_zone_marginEnd">-3dp</dimen>
+    <dimen name="hrm_zone_marginBottom">-30dp</dimen>
+    <dimen name="day_zone_marginEnd">-25dp</dimen>
+
+    <dimen name="step_text_width">51dp</dimen>
+    <dimen name="step_text_height">30dp</dimen>
+    <dimen name="step_text_marginStart">@dimen/neon_bg_icon_width</dimen>
+    <dimen name="hrm_text_width">30dp</dimen>
+    <dimen name="hrm_text_height">30dp</dimen>
+    <dimen name="hrm_text_marginStart">-30dp</dimen>
+    <dimen name="battery_text_width">50dp</dimen>
+    <dimen name="battery_text_height">30dp</dimen>
+    <dimen name="battery_text_marginBottom">10dp</dimen>
+
+    <dimen name="date_layout_width">138dp</dimen>
+    <dimen name="date_layout_height">20dp</dimen>
+    <dimen name="date_layout_marginBottom">-20dp</dimen>
+    <dimen name="date_layout_column_width">69dp</dimen>
+
+    <dimen name="time_layout_width">138dp</dimen>
+    <dimen name="time_layout_height">90dp</dimen>
+    <dimen name="time_layout_column_width">65dp</dimen>
+    <dimen name="time_layout_minute_height">60dp</dimen>
+    <dimen name="time_layout_second_height">30dp</dimen>
+
+    <dimen name="time_layout_hour_group_marginEnd">-4dp</dimen>
+
+</resources>
