@@ -61,6 +61,10 @@ class MiscTools(context: Context) {
         canvas.drawText(text, x.toFloat(), y.toFloat(), paint)
     }
 
+    fun clearCanvas(canvas: Canvas) {
+        canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
+    }
+
     fun scaleBitmap(bm: Bitmap, scaleX: Float, scaleY: Float): Bitmap {
         return Bitmap.createScaledBitmap(
             bm,

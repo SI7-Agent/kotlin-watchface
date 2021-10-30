@@ -320,6 +320,7 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
         }
 
         private fun drawWatchFace(canvas: Canvas) {
+            tools.clearCanvas(canvas)
             setGraphic()
             setTime()
             setDate()
@@ -457,7 +458,7 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
                                 Zones.TIME_TOUCH_ZONE -> Log.d(TAG, "onTapCommand: TAPPED TIME")
                                 Zones.STEP_TOUCH_ZONE -> Log.d(TAG, "onTapCommand: TAPPED STEP")
                                 Zones.HRM_TOUCH_ZONE -> Log.d(TAG, "onTapCommand: TAPPED HRM")
-                                else -> Log.d(TAG, "onTapCommand: TAPPED BG")
+                                else -> changeTheme()
                             }
                         }
                     }
@@ -485,7 +486,8 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
                 currentTheme++
 
             digitalNeonWatchFaceStyle = getWatchFaceStyle()
-            //setTheme(currentTheme)
+            initializeWatchFace()
+//            setTheme(currentTheme)
         }
 
         private fun registerReceiver() {
