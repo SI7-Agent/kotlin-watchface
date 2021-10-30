@@ -25,10 +25,10 @@ class WatchFaceFontBuilder(font: Int) {
             "font" to R.font.main_font_minaeff,
         ),
         mutableMapOf(
-            "hourSize" to 77,
-            "minuteSize" to 55,
-            "secondSize" to 30,
-            "labelSize" to 13,
+            "hourSize" to 53,
+            "minuteSize" to 30,
+            "secondSize" to 15,
+            "labelSize" to 12,
             "font" to R.font.main_font_3am,
         ),
         mutableMapOf(
