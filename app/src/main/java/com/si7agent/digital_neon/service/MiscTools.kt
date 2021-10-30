@@ -1,7 +1,9 @@
 package com.si7agent.digital_neon.service
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.*
+import android.widget.Toast
 import com.si7agent.digital_neon.R
 
 enum class Zones {
@@ -153,5 +155,17 @@ class MiscTools(context: Context) {
     fun dpToPx(dp: Float): Int {
         val density = c.resources.displayMetrics.density
         return (dp*density).toInt()
+    }
+
+    fun openApplication(name: String) {
+        val pm = c.packageManager
+        val intent:Intent? = pm.getLaunchIntentForPackage(name)
+
+        intent?.addCategory(Intent.CATEGORY_LAUNCHER)
+        if (intent != null) {
+            c.startActivity(intent)
+        } else {
+            Toast.makeText(c, "Intent null.", Toast.LENGTH_SHORT).show()
+        }
     }
 }

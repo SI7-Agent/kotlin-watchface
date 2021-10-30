@@ -25,7 +25,7 @@ private const val INTERACTIVE_UPDATE_RATE_MS = 1000
 private const val MSG_UPDATE_TIME = 0
 private const val DOUBLE_TAP_DELAY = 250
 
-private const val LAST_FONT = 5
+private const val LAST_FONT = 4
 private const val LAST_THEME = 4
 
 abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
@@ -37,7 +37,7 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
     var timeStart = 0L
     var timeEnd = 0L
 
-    protected var currentTheme: Int = 4
+    protected var currentTheme: Int = 1
     protected var currentFont: Int = 1
     protected var tools: MiscTools = MiscTools(this@AbstractKotlinWatchFace)
 
@@ -434,7 +434,7 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
                                                         yDP.toInt(),
                                                         Pair(tools.pxToDp((screenSize["width"]!!/2).toFloat()),
                                                             tools.pxToDp((screenSize["height"]!!/2).toFloat())))) {
-                                Zones.APPLAUNCHER_TOUCH_ZONE -> Log.d(TAG, "onTapCommand: TAPPED APPLAUNCHER")
+                                Zones.APPLAUNCHER_TOUCH_ZONE -> tools.openApplication("com.samsung.android.apps.wearable.recent")
                                 Zones.DATE_TOUCH_ZONE -> Log.d(TAG, "onTapCommand: TAPPED DATE")
                                 Zones.DAY_TOUCH_ZONE -> Log.d(TAG, "onTapCommand: TAPPED DAY")
                                 Zones.TIME_TOUCH_ZONE -> changeFont()
