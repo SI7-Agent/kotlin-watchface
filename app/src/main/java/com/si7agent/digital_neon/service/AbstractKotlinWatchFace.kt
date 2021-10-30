@@ -22,6 +22,7 @@ import java.util.*
 
 private const val INTERACTIVE_UPDATE_RATE_MS = 1000
 private const val MSG_UPDATE_TIME = 0
+private const val DOUBLE_TAP_DELAY = 250
 
 private const val LAST_FONT = 5
 private const val LAST_THEME = 4
@@ -31,6 +32,9 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
     var specW: Int = 0
     var specH: Int = 0
     lateinit var watchLayout: View
+
+    var timeStart = 0L
+    var timeEnd = 0L
 
     protected var currentTheme: Int = 4
     protected var currentFont: Int = 1
@@ -421,6 +425,39 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
 
             specW = View.MeasureSpec.makeMeasureSpec(screenSize["width"]!!, View.MeasureSpec.EXACTLY)
             specH = View.MeasureSpec.makeMeasureSpec(screenSize["height"]!!, View.MeasureSpec.EXACTLY)
+        }
+
+        override fun onTapCommand(tapType: Int, x: Int, y: Int, eventTime: Long) {
+            when (tapType) {
+                WatchFaceService.TAP_TYPE_TOUCH -> {/* unused */
+                    Log.d(TAG, "onTapCommand: ${x}, ${y}")
+
+                    if (timeStart == 0L) {
+                        //первое нажатие
+                        timeStart = eventTime
+                    } else {
+                        //нажатие второе
+                        timeEnd = eventTime
+                        val delay = timeEnd - timeStart
+                        if (delay > DOUBLE_TAP_DELAY) {
+                            //одиночное нажатие 2
+                            timeStart = timeEnd
+                            timeEnd = 0
+                        } else {
+                            //двойное нажатие
+                            timeStart = 0
+                            timeEnd = 0
+
+                            val xDP = x / resources.displayMetrics.density;
+                            val yDP = y / resources.displayMetrics.density;
+
+                            Log.d(TAG, "onTapCommand: ${xDP}, ${yDP}")
+
+                        }
+                    }
+                }
+            }
+            invalidate()
         }
 
         private fun changeFont() {
