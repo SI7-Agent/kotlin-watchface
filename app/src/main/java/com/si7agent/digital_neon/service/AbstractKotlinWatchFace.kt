@@ -5,10 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.*
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.os.Message
+import android.os.*
 import android.support.wearable.watchface.CanvasWatchFaceService
 import android.support.wearable.watchface.WatchFaceService
 import android.support.wearable.watchface.WatchFaceStyle
@@ -321,6 +318,7 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
             setGraphic()
             setTime()
             setDate()
+            setBattery()
 
             watchLayout.measure(specW, specH)
             watchLayout.layout(0, 0, watchLayout.measuredWidth, watchLayout.measuredHeight)
@@ -377,6 +375,29 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
 
             val dayText = watchLayout.findViewById<TextView>(R.id.dayTextView)
             dayText.text = calendar.get(Calendar.DAY_OF_MONTH).toString()
+        }
+
+        private fun setBattery() {
+            val batteryManager = getSystemService(BATTERY_SERVICE) as BatteryManager
+            val batteryLevel = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
+            val isCharging = batteryManager.isCharging
+            val batteryText = watchLayout.findViewById<TextView>(R.id.batteryTextView)
+
+            if (isCharging) {
+                batteryText.setTextColor(ContextCompat.getColor(applicationContext, R.color.battery_charging))
+            }
+            else if (batteryLevel == 100) {
+                batteryText.setTextColor(ContextCompat.getColor(applicationContext, R.color.battery_full))
+            }
+            else {
+                when ((batteryLevel/10)%10) {
+                    0, 1, 2 -> batteryText.setTextColor(ContextCompat.getColor(applicationContext, R.color.battery_empty))
+                    3, 4, 5, 6, 7 -> batteryText.setTextColor(ContextCompat.getColor(applicationContext, R.color.battery_middle))
+                    else -> batteryText.setTextColor(ContextCompat.getColor(applicationContext, R.color.battery_high))
+                }
+            }
+
+            batteryText.text = "${batteryLevel}%"
         }
 
         override fun onVisibilityChanged(visible: Boolean) {
