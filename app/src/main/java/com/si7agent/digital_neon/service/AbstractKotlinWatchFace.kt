@@ -64,7 +64,6 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
     }
 
     inner class Engine : CanvasWatchFaceService.Engine() {
-        //private lateinit var textPaint
 
         private lateinit var themeResources: MutableMap<String, MutableMap<String, Bitmap>>
 
@@ -102,8 +101,6 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
 
             calendar = Calendar.getInstance()
 
-            Log.d(TAG, "onCreate: ")
-
             initializeLayout()
             initializeThemeImages()
             initializeBackground()
@@ -116,8 +113,6 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
         }
 
         private fun initializeBackground() {
-            Log.d(TAG, "initializeBackground: ")
-
             backgroundPaint = Paint().apply {
                 color = ContextCompat.getColor(applicationContext, R.color.default_bg2)
             }
@@ -151,13 +146,13 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
             minuteText.typeface = resources.getFont(digitalNeonWatchFaceStyle.font.font)
             minuteText.textSize = digitalNeonWatchFaceStyle.font.minuteSize.toFloat()
             minuteText.setTextColor(ContextCompat.getColor(applicationContext, digitalNeonWatchFaceStyle.theme.labelColor))
-            //minuteText.setShadowLayer(8f, 0f, 0f, ContextCompat.getColor(applicationContext, R.color.minute_shade))
+            minuteText.setShadowLayer(3f, 0f, 0f, ContextCompat.getColor(applicationContext, R.color.minute_shade))
 
             val secondText = watchLayout.findViewById<TextView>(R.id.secondTextView)
             secondText.typeface = resources.getFont(digitalNeonWatchFaceStyle.font.font)
             secondText.textSize = digitalNeonWatchFaceStyle.font.secondSize.toFloat()
             secondText.setTextColor(ContextCompat.getColor(applicationContext, digitalNeonWatchFaceStyle.theme.labelColor))
-            //secondText.setShadowLayer(8f, 0f, 0f, ContextCompat.getColor(applicationContext, R.color.second_shade))
+            secondText.setShadowLayer(3f, 0f, 0f, ContextCompat.getColor(applicationContext, R.color.second_shade))
 
             val dayText = watchLayout.findViewById<TextView>(R.id.dayTextView)
             dayText.typeface = resources.getFont(digitalNeonWatchFaceStyle.font.font)
@@ -247,8 +242,6 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
         }
 
         override fun onSurfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
-            Log.d(TAG, "onSurfaceChanged: ")
-
             screenSize = mutableMapOf(
                 "width" to width,
                 "height" to height
@@ -258,8 +251,7 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
             val icAppLauncherScale = scale * 0.1225f
             val neonBgScale = scale * 1.1f
 
-            if (isBackgroundImageEnabled)
-            {
+            if (isBackgroundImageEnabled) {
                 backgroundBitmap = tools.scaleBitmap(backgroundBitmap, scale, scale)
 
                 if (!burnInProtection && !lowBitAmbient) {
@@ -305,8 +297,6 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
         }
 
         override fun onDraw(canvas: Canvas, bounds: Rect) {
-            Log.d(TAG, "onDraw: ")
-
             val currentTime = System.currentTimeMillis()
             calendar.timeInMillis = currentTime
 
@@ -315,7 +305,6 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
         }
 
         private fun drawBackground(canvas: Canvas) {
-            Log.d(TAG, "drawBackground: ")
             tools.putImageOnCanvas(canvas, backgroundBitmap, 0, 0)
         }
 
@@ -407,14 +396,11 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
 
             if (visible) {
                 registerReceiver()
-                /* Update time zone in case it changed while we weren't visible. */
                 calendar.timeZone = TimeZone.getDefault()
                 invalidate()
             } else {
                 unregisterReceiver()
             }
-
-            /* Check and trigger whether or not timer should be running (only in active mode). */
             updateTimer()
         }
 
@@ -429,18 +415,14 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
             when (tapType) {
                 WatchFaceService.TAP_TYPE_TOUCH -> {
                     if (timeStart == 0L) {
-                        //первое нажатие
                         timeStart = eventTime
                     } else {
-                        //нажатие второе
                         timeEnd = eventTime
                         val delay = timeEnd - timeStart
                         if (delay > DOUBLE_TAP_DELAY) {
-                            //одиночное нажатие 2
                             timeStart = timeEnd
                             timeEnd = 0L
                         } else {
-                            //двойное нажатие
                             timeStart = 0L
                             timeEnd = 0L
 
@@ -455,7 +437,7 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
                                 Zones.APPLAUNCHER_TOUCH_ZONE -> Log.d(TAG, "onTapCommand: TAPPED APPLAUNCHER")
                                 Zones.DATE_TOUCH_ZONE -> Log.d(TAG, "onTapCommand: TAPPED DATE")
                                 Zones.DAY_TOUCH_ZONE -> Log.d(TAG, "onTapCommand: TAPPED DAY")
-                                Zones.TIME_TOUCH_ZONE -> Log.d(TAG, "onTapCommand: TAPPED TIME")
+                                Zones.TIME_TOUCH_ZONE -> changeFont()
                                 Zones.STEP_TOUCH_ZONE -> Log.d(TAG, "onTapCommand: TAPPED STEP")
                                 Zones.HRM_TOUCH_ZONE -> Log.d(TAG, "onTapCommand: TAPPED HRM")
                                 else -> changeTheme()
@@ -474,10 +456,8 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
                 currentFont++
 
             digitalNeonWatchFaceStyle = getWatchFaceStyle()
-            //setFont(currentFont)
+            initializeWatchFace()
         }
-
-
 
         private fun changeTheme() {
             if (currentTheme == LAST_THEME)
@@ -487,7 +467,6 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
 
             digitalNeonWatchFaceStyle = getWatchFaceStyle()
             initializeWatchFace()
-//            setTheme(currentTheme)
         }
 
         private fun registerReceiver() {
@@ -507,9 +486,6 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
             this@AbstractKotlinWatchFace.unregisterReceiver(timeZoneReceiver)
         }
 
-        /**
-         * Starts/stops the [.updateTimeHandler] timer based on the state of the watch face.
-         */
         private fun updateTimer() {
             updateTimeHandler.removeMessages(MSG_UPDATE_TIME)
             if (shouldTimerBeRunning()) {
@@ -517,17 +493,10 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
             }
         }
 
-        /**
-         * Returns whether the [.updateTimeHandler] timer should be running. The timer
-         * should only run in active mode.
-         */
         private fun shouldTimerBeRunning(): Boolean {
             return isVisible && !ambient
         }
 
-        /**
-         * Handle updating the time periodically in interactive mode.
-         */
         fun handleUpdateTimeMessage() {
             invalidate()
             if (shouldTimerBeRunning()) {
