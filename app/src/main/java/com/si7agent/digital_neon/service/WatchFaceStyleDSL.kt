@@ -39,9 +39,9 @@ class WatchFaceFontBuilder(font: Int) {
             "font" to R.font.main_font_basis33,
         ),
         mutableMapOf(
-            "hourSize" to 90,
-            "minuteSize" to 52,
-            "secondSize" to 30,
+            "hourSize" to 68,
+            "minuteSize" to 38,
+            "secondSize" to 18,
             "labelSize" to 18,
             "font" to R.font.main_font_aurach,
         )
