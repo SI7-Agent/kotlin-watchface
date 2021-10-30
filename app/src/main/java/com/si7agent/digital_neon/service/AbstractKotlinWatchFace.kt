@@ -19,6 +19,7 @@ import com.si7agent.digital_neon.model.DigitalNeonWatchFaceStyle
 import com.si7agent.digital_neon.model.WatchFaceBackgroundImage
 import java.lang.ref.WeakReference
 import java.util.*
+import android.os.BatteryManager
 
 private const val INTERACTIVE_UPDATE_RATE_MS = 1000
 private const val MSG_UPDATE_TIME = 0
@@ -384,17 +385,13 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
         private fun setBattery() {
             val batteryManager = getSystemService(BATTERY_SERVICE) as BatteryManager
             val batteryLevel = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
-            val isCharging = batteryManager.isCharging
+            val batteryStatus = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_STATUS)
             val batteryText = watchLayout.findViewById<TextView>(R.id.batteryTextView)
 
-            if (isCharging) {
-                batteryText.setTextColor(ContextCompat.getColor(applicationContext, R.color.battery_charging))
-            }
-            else if (batteryLevel == 100) {
-                batteryText.setTextColor(ContextCompat.getColor(applicationContext, R.color.battery_full))
-            }
-            else {
-                when ((batteryLevel/10)%10) {
+            when (batteryStatus) {
+                BatteryManager.BATTERY_STATUS_CHARGING -> batteryText.setTextColor(ContextCompat.getColor(applicationContext, R.color.battery_charging))
+                BatteryManager.BATTERY_STATUS_FULL -> batteryText.setTextColor(ContextCompat.getColor(applicationContext, R.color.battery_full))
+                else -> when ((batteryLevel/10)%10) {
                     0, 1, 2 -> batteryText.setTextColor(ContextCompat.getColor(applicationContext, R.color.battery_empty))
                     3, 4, 5, 6, 7 -> batteryText.setTextColor(ContextCompat.getColor(applicationContext, R.color.battery_middle))
                     else -> batteryText.setTextColor(ContextCompat.getColor(applicationContext, R.color.battery_high))
