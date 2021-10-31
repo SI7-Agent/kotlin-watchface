@@ -1,10 +1,18 @@
 package com.si7agent.digital_neon.service
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.*
+import android.util.Log
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.si7agent.digital_neon.R
+import androidx.core.content.ContextCompat.startActivity
+
+
+
 
 enum class Zones {
     APPLAUNCHER_TOUCH_ZONE,
@@ -157,15 +165,41 @@ class MiscTools(context: Context) {
         return (dp*density).toInt()
     }
 
-    fun openApplication(name: String) {
-        val pm = c.packageManager
-        val intent:Intent? = pm.getLaunchIntentForPackage(name)
+    fun openApplication(packageName: String, activityName: String? = null) {
+        if (activityName != null) {
+            launchActivity(packageName, activityName)
+        }
+        else {
+            launchApplication(packageName)
+        }
+    }
 
+    private fun launchActivity (packageName: String, activityName: String) {
+        val intent = Intent()
+        intent.setClassName(packageName, activityName)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+
+        try {
+            c.startActivity(intent)
+        }
+        catch (ignored: ClassNotFoundException) {
+            Toast.makeText(c, "$packageName is not found.", Toast.LENGTH_SHORT).show()
+        }
+        catch (ignored: ActivityNotFoundException) {
+            Toast.makeText(c, "$activityName is not found.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun launchApplication(packageName: String) {
+        val pm = c.packageManager
+        val intent:Intent? = pm.getLaunchIntentForPackage(packageName)
         intent?.addCategory(Intent.CATEGORY_LAUNCHER)
+
         if (intent != null) {
             c.startActivity(intent)
-        } else {
-            Toast.makeText(c, "Intent null.", Toast.LENGTH_SHORT).show()
+        }
+        else {
+            Toast.makeText(c, "$packageName is not installed", Toast.LENGTH_SHORT).show()
         }
     }
 }

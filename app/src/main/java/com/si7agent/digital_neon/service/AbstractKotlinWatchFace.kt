@@ -435,11 +435,11 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
                                                         Pair(tools.pxToDp((screenSize["width"]!!/2).toFloat()),
                                                             tools.pxToDp((screenSize["height"]!!/2).toFloat())))) {
                                 Zones.APPLAUNCHER_TOUCH_ZONE -> tools.openApplication("com.samsung.android.apps.wearable.recent")
-                                Zones.DATE_TOUCH_ZONE -> Log.d(TAG, "onTapCommand: TAPPED DATE")
-                                Zones.DAY_TOUCH_ZONE -> Log.d(TAG, "onTapCommand: TAPPED DAY")
+                                Zones.DATE_TOUCH_ZONE -> tools.openApplication("com.samsung.android.calendar")
+                                Zones.DAY_TOUCH_ZONE -> tools.openApplication("com.samsung.android.calendar")
                                 Zones.TIME_TOUCH_ZONE -> changeFont()
-                                Zones.STEP_TOUCH_ZONE -> Log.d(TAG, "onTapCommand: TAPPED STEP")
-                                Zones.HRM_TOUCH_ZONE -> Log.d(TAG, "onTapCommand: TAPPED HRM")
+                                Zones.STEP_TOUCH_ZONE -> tools.openApplication("com.samsung.android.wear.shealth", "com.samsung.android.wear.shealth.app.steps.view.StepsActivity")
+                                Zones.HRM_TOUCH_ZONE -> tools.openApplication("com.samsung.android.wear.shealth", "com.samsung.android.wear.shealth.app.heartrate.view.HeartRateActivity")
                                 else -> changeTheme()
                             }
                         }
