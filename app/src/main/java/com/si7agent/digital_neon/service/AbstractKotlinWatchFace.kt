@@ -483,11 +483,13 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
 
             when (batteryStatus) {
                 BatteryManager.BATTERY_STATUS_CHARGING -> batteryText.setTextColor(ContextCompat.getColor(applicationContext, R.color.battery_charging))
-                BatteryManager.BATTERY_STATUS_FULL -> batteryText.setTextColor(ContextCompat.getColor(applicationContext, R.color.battery_full))
-                else -> when ((batteryLevel/10)%10) {
-                    0, 1, 2 -> batteryText.setTextColor(ContextCompat.getColor(applicationContext, R.color.battery_empty))
-                    3, 4, 5, 6, 7 -> batteryText.setTextColor(ContextCompat.getColor(applicationContext, R.color.battery_middle))
-                    else -> batteryText.setTextColor(ContextCompat.getColor(applicationContext, R.color.battery_high))
+                else -> when (batteryLevel == 100) {
+                    true -> batteryText.setTextColor(ContextCompat.getColor(applicationContext, R.color.battery_full))
+                    false -> when ((batteryLevel/10)%10) {
+                        0, 1, 2 -> batteryText.setTextColor(ContextCompat.getColor(applicationContext, R.color.battery_empty))
+                        3, 4, 5, 6, 7 -> batteryText.setTextColor(ContextCompat.getColor(applicationContext, R.color.battery_middle))
+                        else -> batteryText.setTextColor(ContextCompat.getColor(applicationContext, R.color.battery_high))
+                    }
                 }
             }
 
