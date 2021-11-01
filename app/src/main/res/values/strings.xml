@@ -12,7 +12,7 @@
     <string name="default_week_day_label">Monday</string>
     <string name="default_month_label">January</string>
     <string name="default_hrm_label">000</string>
-    <string name="default_step_label">000000</string>
+    <string name="default_step_label">00000</string>
     <string name="default_battery_label">100%</string>
 
     <string name="watch_description">Image for presenting seconds in analog style</string>

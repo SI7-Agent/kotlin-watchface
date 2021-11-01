@@ -16,10 +16,10 @@
     <dimen name="in_neon_bg_icon_marginTop">3dp</dimen>
     <dimen name="in_neon_bg_icon_marginStart">3dp</dimen>
 
-    <dimen name="step_zone_marginStart">-3dp</dimen>
-    <dimen name="step_zone_marginBottom">-30dp</dimen>
-    <dimen name="hrm_zone_marginEnd">-3dp</dimen>
-    <dimen name="hrm_zone_marginBottom">-30dp</dimen>
+    <dimen name="step_zone_marginStart">0dp</dimen>
+    <dimen name="step_zone_marginBottom">-29dp</dimen>
+    <dimen name="hrm_zone_marginEnd">0dp</dimen>
+    <dimen name="hrm_zone_marginBottom">-29dp</dimen>
     <dimen name="day_zone_marginEnd">-25dp</dimen>
 
     <dimen name="step_text_width">51dp</dimen>
