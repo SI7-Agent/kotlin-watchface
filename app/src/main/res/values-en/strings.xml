@@ -1,2 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="watch_description">Image for presenting seconds in analog style</string>
+    <string name="second_mover_description">Image for presenting a second hand</string>
+    <string name="neon_bg_day_zone_description">Background image of day zone</string>
+    <string name="neon_bg_hrm_zone_description">Background image of hrm zone</string>
+    <string name="neon_bg_step_zone_description">Background image of made steps zone</string>
+    <string name="app_launcher_description">Recent applications icon</string>
+    <string name="step_icon_description">Step icon</string>
+    <string name="hrm_icon_description">Hrm icon</string>
+
+    <string-array name="week_days">
+        <item>SUN</item>
+        <item>MON</item>
+        <item>TUE</item>
+        <item>WED</item>
+        <item>THU</item>
+        <item>FRI</item>
+        <item>SAT</item>
+    </string-array>
+
+    <string-array name="months">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
+</resources>
