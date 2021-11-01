@@ -9,7 +9,7 @@
     <string name="default_minute_label">00</string>
     <string name="default_second_label">00</string>
     <string name="default_day_label">00</string>
-    <string name="default_week_day_label">Monday</string>
+    <string name="default_week_day_label">MON</string>
     <string name="default_month_label">January</string>
     <string name="default_hrm_label">000</string>
     <string name="default_step_label">00000</string>
@@ -25,13 +25,13 @@
     <string name="hrm_icon_description">Hrm icon</string>
 
     <string-array name="week_days">
-        <item>Sunday</item>
-        <item>Monday</item>
-        <item>Tuesday</item>
-        <item>Wednesday</item>
-        <item>Thursday</item>
-        <item>Friday</item>
-        <item>Saturday</item>
+        <item>SUN</item>
+        <item>MON</item>
+        <item>TUE</item>
+        <item>WED</item>
+        <item>THU</item>
+        <item>FRI</item>
+        <item>SAT</item>
     </string-array>
 
     <string-array name="months">

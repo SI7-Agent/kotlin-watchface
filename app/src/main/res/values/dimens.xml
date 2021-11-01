@@ -35,13 +35,15 @@
     <dimen name="date_layout_width">138dp</dimen>
     <dimen name="date_layout_height">20dp</dimen>
     <dimen name="date_layout_marginBottom">-20dp</dimen>
-    <dimen name="date_layout_column_width">69dp</dimen>
+    <dimen name="date_layout_month_column_width">80dp</dimen>
+    <dimen name="date_layout_week_day_column_width">58dp</dimen>
 
     <dimen name="time_layout_width">138dp</dimen>
     <dimen name="time_layout_height">90dp</dimen>
     <dimen name="time_layout_column_width">65dp</dimen>
     <dimen name="time_layout_minute_height">60dp</dimen>
     <dimen name="time_layout_second_height">30dp</dimen>
+    <dimen name="time_layout_second_marginTop">-4dp</dimen>
 
     <dimen name="time_layout_hour_group_marginEnd">0dp</dimen>
 

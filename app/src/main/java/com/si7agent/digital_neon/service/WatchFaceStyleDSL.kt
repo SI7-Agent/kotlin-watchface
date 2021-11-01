@@ -18,29 +18,29 @@ class WatchFaceFontBuilder(font: Int) {
 
     private val availableFonts: Array<MutableMap<String, Any?>> = arrayOf(
         mutableMapOf(
-            "hourSize" to 70,
-            "minuteSize" to 40,
+            "hourSize" to 60,
+            "minuteSize" to 35,
             "secondSize" to 20,
             "labelSize" to 16,
             "font" to R.font.main_font_minaeff,
         ),
         mutableMapOf(
-            "hourSize" to 53,
+            "hourSize" to 43,
             "minuteSize" to 30,
             "secondSize" to 15,
             "labelSize" to 12,
             "font" to R.font.main_font_3am,
         ),
         mutableMapOf(
-            "hourSize" to 72,
+            "hourSize" to 65,
             "minuteSize" to 45,
             "secondSize" to 22,
             "labelSize" to 20,
             "font" to R.font.main_font_basis33,
         ),
         mutableMapOf(
-            "hourSize" to 68,
-            "minuteSize" to 38,
+            "hourSize" to 60,
+            "minuteSize" to 35,
             "secondSize" to 18,
             "labelSize" to 18,
             "font" to R.font.main_font_aurach,
