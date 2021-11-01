@@ -88,9 +88,9 @@
         android:layout_alignStart="@id/neonBgStepZoneImageView"
         android:layout_alignTop="@id/neonBgStepZoneImageView"
         android:layout_marginStart="@dimen/step_text_marginStart"
-        android:gravity="center"
+        android:gravity="center|start"
         android:text="@string/default_step_label"
-        android:textAlignment="center"
+        android:textAlignment="inherit"
         android:textColor="@color/theme1"
         android:textSize="15dp" />
 
