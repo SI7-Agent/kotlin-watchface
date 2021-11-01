@@ -27,8 +27,11 @@ import com.si7agent.digital_neon.R
 import com.si7agent.digital_neon.model.DigitalNeonWatchFaceStyle
 import com.si7agent.digital_neon.model.WatchFaceBackgroundImage
 import com.si7agent.digital_neon.RequestActivity
+import java.lang.Math.toRadians
 import java.lang.ref.WeakReference
 import java.util.*
+import kotlin.math.cos
+import kotlin.math.sin
 
 private const val INTERACTIVE_UPDATE_RATE_MS = 1000
 private const val MSG_UPDATE_TIME = 0
@@ -383,6 +386,7 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
 
             setGraphic()
             setTime()
+            setSecondMover(calendar.get(Calendar.SECOND))
             setDate()
             setSensorValue()
             setBattery()
@@ -439,6 +443,17 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
 
             val secondText = watchLayout.findViewById<TextView>(R.id.secondTextView)
             secondText.text = tools.intToStr(calendar.get(Calendar.SECOND))
+        }
+
+        private fun setSecondMover(sec: Int) {
+            val secondMoverImageView = watchLayout.findViewById<ImageView>(R.id.secondMoverImageView)
+            val backCountedSeconds = if (sec>14) sec-15 else 60+sec-15
+
+            val radiusX = (screenSize["width"]!! - resources.getDimension(R.dimen.neon_bg_second_mover_icon_width))/2
+            val radiusY = (screenSize["height"]!! - resources.getDimension(R.dimen.neon_bg_second_mover_icon_height))/2
+
+            secondMoverImageView.translationX = radiusX*cos(toRadians(6.0*backCountedSeconds)).toFloat()
+            secondMoverImageView.translationY = radiusY + radiusY*sin(toRadians(6.0*backCountedSeconds)).toFloat()
         }
 
         private fun setDate() {
