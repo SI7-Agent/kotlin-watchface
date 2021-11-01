@@ -1,25 +1,34 @@
 package com.si7agent.digital_neon.service
 
+import android.Manifest
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.graphics.*
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.os.*
 import android.support.wearable.watchface.CanvasWatchFaceService
 import android.support.wearable.watchface.WatchFaceService
 import android.support.wearable.watchface.WatchFaceStyle
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.SurfaceHolder
+import android.view.View
+import android.view.WindowInsets
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.si7agent.digital_neon.R
 import com.si7agent.digital_neon.model.DigitalNeonWatchFaceStyle
 import com.si7agent.digital_neon.model.WatchFaceBackgroundImage
+import com.si7agent.digital_neon.RequestActivity
 import java.lang.ref.WeakReference
 import java.util.*
-import android.os.BatteryManager
 
 private const val INTERACTIVE_UPDATE_RATE_MS = 1000
 private const val MSG_UPDATE_TIME = 0
@@ -63,7 +72,13 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
         }
     }
 
-    inner class Engine : CanvasWatchFaceService.Engine() {
+    inner class Engine : CanvasWatchFaceService.Engine(), SensorEventListener {
+
+        private var sensorManager: SensorManager? = null
+        private var isStepSensorRunning = false
+        private var isStepSensorReseted = false
+        private var totalSteps = 0f
+        private var previousTotalSteps = 0f
 
         private lateinit var themeResources: MutableMap<String, MutableMap<String, Bitmap>>
 
@@ -89,6 +104,28 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
             }
         }
 
+        override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+            Log.d(TAG, "onAccuracyChanged: $accuracy")
+        }
+
+        override fun onSensorChanged(event: SensorEvent?) {
+            when(event?.sensor?.type) {
+                Sensor.TYPE_STEP_COUNTER -> {
+                    if (!isStepSensorReseted) {
+                        previousTotalSteps = event.values[0]
+                        isStepSensorReseted = true
+                    }
+
+                    if (isStepSensorRunning) {
+                        totalSteps = event.values[0]
+                        val currentSteps = totalSteps.toInt() - previousTotalSteps.toInt()
+
+                        Log.d(TAG, "onSensorChanged: $currentSteps")
+                    }
+                }
+            }
+        }
+
         override fun onCreate(holder: SurfaceHolder) {
             super.onCreate(holder)
 
@@ -105,6 +142,18 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
             initializeThemeImages()
             initializeBackground()
             initializeWatchFace()
+        }
+
+        private fun initializeSensors() {
+            val intent = Intent(applicationContext, RequestActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+
+            sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+            isStepSensorRunning = true
+
+            val stepSensor: Sensor? = sensorManager?.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
+            sensorManager?.registerListener(this, stepSensor, SensorManager.SENSOR_DELAY_UI)
         }
 
         private fun initializeLayout() {
@@ -247,6 +296,8 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
                 "height" to height
             )
 
+            initializeSensors()
+
             val scale = width.toFloat() / backgroundBitmap.width.toFloat()
             val icAppLauncherScale = scale * 0.1225f
             val neonBgScale = scale * 1.1f
@@ -310,9 +361,11 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
 
         private fun drawWatchFace(canvas: Canvas) {
             tools.clearCanvas(canvas)
+
             setGraphic()
             setTime()
             setDate()
+            setSensorValue()
             setBattery()
 
             watchLayout.measure(specW, specH)
@@ -370,6 +423,11 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
 
             val dayText = watchLayout.findViewById<TextView>(R.id.dayTextView)
             dayText.text = calendar.get(Calendar.DAY_OF_MONTH).toString()
+        }
+
+        private fun setSensorValue() {
+            val stepText = watchLayout.findViewById<TextView>(R.id.stepTextView)
+            stepText.text = (totalSteps - previousTotalSteps).toInt().toString()
         }
 
         private fun setBattery() {
