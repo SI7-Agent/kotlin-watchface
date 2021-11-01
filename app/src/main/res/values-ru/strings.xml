@@ -1,2 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="watch_description">Изображение для представления секунд в аналоговом стиле</string>
+    <string name="second_mover_description">Изображение для представления секундной стрелки</string>
+    <string name="neon_bg_day_zone_description">Фон зоны отображения дней</string>
+    <string name="neon_bg_hrm_zone_description">Фон зоны отображения пульса</string>
+    <string name="neon_bg_step_zone_description">Фон для отображения количества пройденных шагов</string>
+    <string name="app_launcher_description">Иконка недавних приложений</string>
+    <string name="step_icon_description">Иконка шагов</string>
+    <string name="hrm_icon_description">Иконка пульса</string>
+
+    <string-array name="week_days">
+        <item>ВС</item>
+        <item>ПН</item>
+        <item>ВТ</item>
+        <item>СР</item>
+        <item>ЧТ</item>
+        <item>ПТ</item>
+        <item>СБ</item>
+    </string-array>
+
+    <string-array name="months">
+        <item>Январь</item>
+        <item>Февраль</item>
+        <item>Март</item>
+        <item>Апрель</item>
+        <item>Май</item>
+        <item>Июнь</item>
+        <item>Июль</item>
+        <item>Август</item>
+        <item>Сентябрь</item>
+        <item>Октябрь</item>
+        <item>Ноябрь</item>
+        <item>Декабрь</item>
+    </string-array>
+</resources>
