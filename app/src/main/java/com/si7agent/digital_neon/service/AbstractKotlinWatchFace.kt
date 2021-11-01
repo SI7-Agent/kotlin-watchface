@@ -75,10 +75,14 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
     inner class Engine : CanvasWatchFaceService.Engine(), SensorEventListener {
 
         private var sensorManager: SensorManager? = null
+        private var stepSensor: Sensor? = null
+        private var hrmSensor: Sensor? = null
         private var isStepSensorRunning = false
+        private var isHrmSensorRunning = false
         private var isStepSensorReseted = false
         private var totalSteps = 0f
         private var previousTotalSteps = 0f
+        private var hrmValue = 0f
 
         private lateinit var themeResources: MutableMap<String, MutableMap<String, Bitmap>>
 
@@ -123,6 +127,17 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
                         Log.d(TAG, "onSensorChanged: $currentSteps")
                     }
                 }
+                Sensor.TYPE_HEART_RATE -> {
+                    if (isHrmSensorRunning) {
+                        hrmValue = event.values[0]
+
+                        Log.d(TAG, "onSensorChanged hrm: $hrmValue")
+
+                        if (hrmValue.toInt() != 0)
+                            sensorManager?.unregisterListener(this, event.sensor)
+                    }
+                }
+                else -> Log.d(TAG, "unknown sensor event defined")
             }
         }
 
@@ -151,9 +166,13 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
 
             sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
             isStepSensorRunning = true
+            isHrmSensorRunning = true
 
-            val stepSensor: Sensor? = sensorManager?.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
+            stepSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
             sensorManager?.registerListener(this, stepSensor, SensorManager.SENSOR_DELAY_UI)
+
+            hrmSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_HEART_RATE)
+            sensorManager?.registerListener(this, hrmSensor, SensorManager.SENSOR_DELAY_NORMAL)
         }
 
         private fun initializeLayout() {
@@ -371,6 +390,14 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
             watchLayout.measure(specW, specH)
             watchLayout.layout(0, 0, watchLayout.measuredWidth, watchLayout.measuredHeight)
             watchLayout.draw(canvas)
+
+            when (calendar.get(Calendar.HOUR_OF_DAY)) {
+                0 -> {
+                    previousTotalSteps = totalSteps
+                    isStepSensorReseted = true
+                }
+                2 -> sensorManager?.registerListener(this, hrmSensor, SensorManager.SENSOR_DELAY_NORMAL)
+            }
         }
 
         private fun setGraphic() {
@@ -428,6 +455,9 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
         private fun setSensorValue() {
             val stepText = watchLayout.findViewById<TextView>(R.id.stepTextView)
             stepText.text = (totalSteps - previousTotalSteps).toInt().toString()
+
+            val hrmText = watchLayout.findViewById<TextView>(R.id.hrmTextView)
+            hrmText.text = hrmValue.toInt().toString()
         }
 
         private fun setBattery() {
