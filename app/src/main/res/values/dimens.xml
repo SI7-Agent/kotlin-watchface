@@ -43,6 +43,6 @@
     <dimen name="time_layout_minute_height">60dp</dimen>
     <dimen name="time_layout_second_height">30dp</dimen>
 
-    <dimen name="time_layout_hour_group_marginEnd">-4dp</dimen>
+    <dimen name="time_layout_hour_group_marginEnd">0dp</dimen>
 
 </resources>
