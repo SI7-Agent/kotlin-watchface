@@ -274,8 +274,8 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
         }
 
         override fun onDestroy() {
+            updateTimeHandler.removeMessages(com.si7agent.digital_neon.service.MSG_UPDATE_TIME)
             super.onDestroy()
-
         }
 
         override fun onPropertiesChanged(properties: Bundle) {
