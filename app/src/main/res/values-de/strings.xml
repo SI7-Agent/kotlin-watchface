@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="default_week_day_label">MON</string>
-    <string name="default_month_label">der Januar</string>
+    <string name="default_month_label">Januar</string>
 
     <string name="watch_description">Bild zur Darstellung von Sekunden im analogen Stil</string>
     <string name="second_mover_description">Bild zur Darstellung des Sekundenzeigers</string>
@@ -23,17 +23,17 @@
     </string-array>
 
     <string-array name="months">
-        <item>der Januar</item>
-        <item>der Februar</item>
-        <item>der März</item>
-        <item>der April</item>
-        <item>der Mai</item>
-        <item>der Juni</item>
-        <item>der Juli</item>
-        <item>der August</item>
-        <item>der September</item>
-        <item>der Oktober</item>
-        <item>der November</item>
-        <item>der Dezember</item>
+        <item>Januar</item>
+        <item>Februar</item>
+        <item>März</item>
+        <item>April</item>
+        <item>Mai</item>
+        <item>Juni</item>
+        <item>Juli</item>
+        <item>August</item>
+        <item>September</item>
+        <item>Oktober</item>
+        <item>November</item>
+        <item>Dezember</item>
     </string-array>
 </resources>
