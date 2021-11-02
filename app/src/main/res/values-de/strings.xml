@@ -1,2 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="default_week_day_label">MON</string>
+    <string name="default_month_label">der Januar</string>
+
+    <string name="watch_description">Bild zur Darstellung von Sekunden im analogen Stil</string>
+    <string name="second_mover_description">Bild zur Darstellung des Sekundenzeigers</string>
+    <string name="neon_bg_day_zone_description">Hintergrund des Anzeigebereichs für Tage</string>
+    <string name="neon_bg_hrm_zone_description">Hintergrund der Herzfrequenzanzeige</string>
+    <string name="neon_bg_step_zone_description">Hintergrund zur Anzeige der Anzahl der zurückgelegten Schritte</string>
+    <string name="app_launcher_description">Symbol für aktuelle Apps</string>
+    <string name="step_icon_description">Schritte-Symbol</string>
+    <string name="hrm_icon_description">Herzfrequenz-Symbol</string>
+
+    <string-array name="week_days">
+        <item>SON</item>
+        <item>MON</item>
+        <item>DIE</item>
+        <item>MIT</item>
+        <item>DON</item>
+        <item>FRE</item>
+        <item>SAM</item>
+    </string-array>
+
+    <string-array name="months">
+        <item>der Januar</item>
+        <item>der Februar</item>
+        <item>der März</item>
+        <item>der April</item>
+        <item>der Mai</item>
+        <item>der Juni</item>
+        <item>der Juli</item>
+        <item>der August</item>
+        <item>der September</item>
+        <item>der Oktober</item>
+        <item>der November</item>
+        <item>der Dezember</item>
+    </string-array>
+</resources>
