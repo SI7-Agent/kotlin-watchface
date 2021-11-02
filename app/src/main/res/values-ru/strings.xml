@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="default_week_day_label">ПН</string>
+    <string name="default_month_label">Январь</string>
+
     <string name="watch_description">Изображение для представления секунд в аналоговом стиле</string>
     <string name="second_mover_description">Изображение для представления секундной стрелки</string>
     <string name="neon_bg_day_zone_description">Фон зоны отображения дней</string>
