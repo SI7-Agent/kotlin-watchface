@@ -1,10 +1,8 @@
 package com.si7agent.digital_neon.service
 
-import android.graphics.Color
 import com.si7agent.digital_neon.R
 import com.si7agent.digital_neon.model.DigitalNeonWatchFaceStyle
 import com.si7agent.digital_neon.model.WatchFaceBackgroundImage
-import com.si7agent.digital_neon.model.WatchFaceDimensions
 import com.si7agent.digital_neon.model.WatchFaceTheme
 import com.si7agent.digital_neon.model.WatchFaceFont
 
@@ -100,46 +98,6 @@ class WatchFaceThemeBuilder(theme: Int) {
 }
 
 @WatchFaceStyleDSL
-class WatchFaceDimensionsBuilder {
-
-    private val attributesMap: MutableMap<String, Any?> = mutableMapOf(
-        "hourHandRadiusRatio" to 0.5f,
-        "minuteHandRadiusRatio" to 0.75f,
-        "secondHandRadiusRatio" to 0.875f,
-        "hourHandWidth" to 5f,
-        "minuteHandWidth" to 3f,
-        "secondHandWidth" to 2f,
-        "shadowRadius" to 2f,
-        "innerCircleRadius" to 4f,
-        "innerCircleToArmsDistance" to 5f
-    )
-
-    var hourHandRadiusRatio:Float by attributesMap
-    var minuteHandRadiusRatio:Float by attributesMap
-    var secondHandRadiusRatio:Float by attributesMap
-    var hourHandWidth:Float by attributesMap
-    var minuteHandWidth:Float by attributesMap
-    var secondHandWidth:Float by attributesMap
-    var shadowRadius:Float by attributesMap
-    var innerCircleRadius:Float by attributesMap
-    var innerCircleToArmsDistance:Float by attributesMap
-
-    fun build(): WatchFaceDimensions {
-        return WatchFaceDimensions(
-            hourHandRadiusRatio,
-            minuteHandRadiusRatio,
-            secondHandRadiusRatio,
-            hourHandWidth,
-            minuteHandWidth,
-            secondHandWidth,
-            shadowRadius,
-            innerCircleRadius,
-            innerCircleToArmsDistance
-        )
-    }
-}
-
-@WatchFaceStyleDSL
 class WatchFaceBackgroundImageBuilder {
 
     private val attributesMap: MutableMap<String, Any?> = mutableMapOf(
@@ -161,7 +119,6 @@ class DigitalNeonWatchFaceStyleBuilder(theme: Int, font: Int) {
 
     private var watchFaceFont: WatchFaceFont? = null
     private var watchFaceTheme: WatchFaceTheme? = null
-    private var watchFaceDimensions: WatchFaceDimensions? = null
     private var watchFaceBackgroundImage: WatchFaceBackgroundImage =
         WatchFaceBackgroundImageBuilder().build()
 
@@ -177,12 +134,6 @@ class DigitalNeonWatchFaceStyleBuilder(theme: Int, font: Int) {
         watchFaceTheme = watchFaceThemeBuilder.build()
     }
 
-    fun watchFaceDimensions(setup: WatchFaceDimensionsBuilder.() -> Unit) {
-        val analogWatchFaceDimensionsBuilder = WatchFaceDimensionsBuilder()
-        analogWatchFaceDimensionsBuilder.setup()
-        watchFaceDimensions = analogWatchFaceDimensionsBuilder.build()
-    }
-
     fun watchFaceBackgroundImage(setup: WatchFaceBackgroundImageBuilder.() -> Unit) {
         val analogWatchFaceBackgroundImageBuilder = WatchFaceBackgroundImageBuilder()
         analogWatchFaceBackgroundImageBuilder.setup()
@@ -194,7 +145,6 @@ class DigitalNeonWatchFaceStyleBuilder(theme: Int, font: Int) {
         return DigitalNeonWatchFaceStyle(
             watchFaceFont ?: throw InstantiationException("Must define watch face font in DSL."),
             watchFaceTheme ?: throw InstantiationException("Must define watch face theme in DSL."),
-            watchFaceDimensions ?: throw InstantiationException("Must define watch face dimensions in DSL."),
             watchFaceBackgroundImage
         )
     }

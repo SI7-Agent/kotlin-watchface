@@ -15,13 +15,9 @@ class DigitalNeonDSL : AbstractKotlinWatchFace() {
             watchFaceTheme {
 
             }
-            watchFaceDimensions {
-
-            }
             watchFaceBackgroundImage {
-                backgroundImageResource = 0//R.drawable.watchface_service_bg
+                backgroundImageResource = 0
             }
         }
-
     }
 }
