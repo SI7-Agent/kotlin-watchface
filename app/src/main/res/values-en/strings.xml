@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="default_week_day_label">MON</string>
+    <string name="default_month_label">January</string>
+
     <string name="watch_description">Image for presenting seconds in analog style</string>
     <string name="second_mover_description">Image for presenting a second hand</string>
     <string name="neon_bg_day_zone_description">Background image of day zone</string>
