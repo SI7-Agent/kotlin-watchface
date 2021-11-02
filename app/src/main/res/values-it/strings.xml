@@ -1,2 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="default_week_day_label">LUN</string>
+    <string name="default_month_label">Gennaio</string>
+
+    <string name="watch_description">Immagine per rappresentare i secondi in stile analogico</string>
+    <string name="second_mover_description">Immagine per rappresentare la lancetta dei secondi</string>
+    <string name="neon_bg_day_zone_description">Sfondo dell\'area di visualizzazione dei giorni</string>
+    <string name="neon_bg_hrm_zone_description">Sfondo dell\'area di visualizzazione della frequenza cardiaca</string>
+    <string name="neon_bg_step_zone_description">Sfondo per la visualizzazione del numero di passi effettuati</string>
+    <string name="app_launcher_description">Icona app recenti</string>
+    <string name="step_icon_description">Icona dei passaggi</string>
+    <string name="hrm_icon_description">Icona della frequenza cardiaca</string>
+
+    <string-array name="week_days">
+        <item>DOM</item>
+        <item>LUN</item>
+        <item>MAR</item>
+        <item>MER</item>
+        <item>GIO</item>
+        <item>VEN</item>
+        <item>SAB</item>
+    </string-array>
+
+    <string-array name="months">
+        <item>Gennaio</item>
+        <item>Febbraio</item>
+        <item>Marzo</item>
+        <item>Aprile</item>
+        <item>Maggio</item>
+        <item>Giugno</item>
+        <item>Luglio</item>
+        <item>Agosto</item>
+        <item>Settembre</item>
+        <item>Ottobre</item>
+        <item>Novembre</item>
+        <item>Dicembre</item>
+    </string-array>
+</resources>
