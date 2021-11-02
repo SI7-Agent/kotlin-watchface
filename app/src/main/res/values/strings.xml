@@ -1,19 +1,19 @@
 <resources>
-    <string name="app_name">Digital Neon</string>
-    <string name="message">Watch face tapped</string>
-    <string name="my_digital_name">My Digital</string>
+    <string name="app_name" translatable="false">Digital Neon</string>
+    <string name="message" translatable="false">Watch face tapped</string>
+    <string name="my_digital_name" translatable="false">My Digital</string>
 
-    <string name="debug_tag">Digital_Neon_Debug_Tag</string>
+    <string name="debug_tag" translatable="false">Digital_Neon_Debug_Tag</string>
 
-    <string name="default_hour_label">00</string>
-    <string name="default_minute_label">00</string>
-    <string name="default_second_label">00</string>
-    <string name="default_day_label">00</string>
+    <string name="default_hour_label" translatable="false">00</string>
+    <string name="default_minute_label" translatable="false">00</string>
+    <string name="default_second_label" translatable="false">00</string>
+    <string name="default_day_label" translatable="false">00</string>
     <string name="default_week_day_label">MON</string>
     <string name="default_month_label">January</string>
-    <string name="default_hrm_label">000</string>
-    <string name="default_step_label">00000</string>
-    <string name="default_battery_label">100%</string>
+    <string name="default_hrm_label" translatable="false">000</string>
+    <string name="default_step_label" translatable="false">00000</string>
+    <string name="default_battery_label" translatable="false">100%</string>
 
     <string name="watch_description">Image for presenting seconds in analog style</string>
     <string name="second_mover_description">Image for presenting a second hand</string>
