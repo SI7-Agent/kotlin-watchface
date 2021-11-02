@@ -16,11 +16,9 @@ import android.support.wearable.watchface.CanvasWatchFaceService
 import android.support.wearable.watchface.WatchFaceService
 import android.support.wearable.watchface.WatchFaceStyle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.SurfaceHolder
-import android.view.View
-import android.view.WindowInsets
+import android.view.*
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.si7agent.digital_neon.R
@@ -281,7 +279,13 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
         }
 
         override fun onPropertiesChanged(properties: Bundle) {
-
+            super.onPropertiesChanged(properties)
+            lowBitAmbient = properties.getBoolean(
+                WatchFaceService.PROPERTY_LOW_BIT_AMBIENT, false
+            )
+            burnInProtection = properties.getBoolean(
+                WatchFaceService.PROPERTY_BURN_IN_PROTECTION, false
+            )
         }
 
         override fun onTimeTick() {
@@ -297,7 +301,131 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
         }
 
         private fun updateWatchHandStyle() {
+            when (ambient) {
+                true -> {
+                    watchLayout.findViewById<ImageView>(R.id.watchZeroImageView).visibility = View.INVISIBLE
+                    watchLayout.findViewById<ImageView>(R.id.watchThirtyImageView).visibility = View.INVISIBLE
+                    watchLayout.findViewById<ImageView>(R.id.watchSixtyImageView).visibility = View.INVISIBLE
+                    watchLayout.findViewById<ImageView>(R.id.secondMoverImageView).visibility = View.INVISIBLE
+                    watchLayout.findViewById<ImageView>(R.id.neonBgDayZoneImageView).visibility = View.INVISIBLE
+                    watchLayout.findViewById<TextView>(R.id.dayTextView).setTextColor(
+                        ContextCompat.getColor(
+                            applicationContext,
+                            R.color.ambient_mode_text
+                        )
+                    )
+                    watchLayout.findViewById<TextView>(R.id.monthTextView).setTextColor(
+                        ContextCompat.getColor(
+                            applicationContext,
+                            R.color.ambient_mode_text
+                        )
+                    )
+                    watchLayout.findViewById<TextView>(R.id.weekDayTextView).setTextColor(
+                        ContextCompat.getColor(
+                            applicationContext,
+                            R.color.ambient_mode_text
+                        )
+                    )
+                    watchLayout.findViewById<TextView>(R.id.hourTextView).apply {
+                        setTextColor(
+                            ContextCompat.getColor(
+                                applicationContext,
+                                R.color.ambient_mode_text
+                            )
+                        )
+                        setShadowLayer(0f, 0f, 0f, ContextCompat.getColor(applicationContext, R.color.ambient_mode_text))
+                    }
+                    watchLayout.findViewById<TextView>(R.id.minuteTextView).apply{
+                        setTextColor(
+                            ContextCompat.getColor(
+                                applicationContext,
+                                R.color.ambient_mode_text
+                            )
+                        )
+                        textSize = digitalNeonWatchFaceStyle.font.hourSize.toFloat()
+                        scaleX = 1.1f
+                        scaleY = 1.3f
+                        minHeight = 0
+                        layoutParams = LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.MATCH_PARENT
+                        )
+                    }
+                    val params = watchLayout.findViewById<TextView>(R.id.minuteTextView).getLayoutParams() as LinearLayout.LayoutParams
+                    params.setMargins(tools.dpToPx(4f), 0, 0, 0)
+                    watchLayout.findViewById<TextView>(R.id.minuteTextView).setLayoutParams(params)
 
+                    watchLayout.findViewById<TextView>(R.id.secondTextView).visibility = View.INVISIBLE
+                    watchLayout.findViewById<ImageView>(R.id.neonBgHrmZoneImageView).visibility = View.INVISIBLE
+                    watchLayout.findViewById<ImageView>(R.id.hrmIconImageView).visibility = View.INVISIBLE
+                    watchLayout.findViewById<TextView>(R.id.hrmTextView).visibility = View.INVISIBLE
+                    watchLayout.findViewById<ImageView>(R.id.neonBgStepZoneImageView).visibility = View.INVISIBLE
+                    watchLayout.findViewById<ImageView>(R.id.stepIconImageView).visibility = View.INVISIBLE
+                    watchLayout.findViewById<TextView>(R.id.stepTextView).visibility = View.INVISIBLE
+                    watchLayout.findViewById<ImageView>(R.id.appLauncherImageView).visibility = View.INVISIBLE
+                }
+                false -> {
+                    watchLayout.findViewById<ImageView>(R.id.watchZeroImageView).visibility = View.VISIBLE
+                    watchLayout.findViewById<ImageView>(R.id.watchThirtyImageView).visibility = View.VISIBLE
+                    watchLayout.findViewById<ImageView>(R.id.watchSixtyImageView).visibility = View.VISIBLE
+                    watchLayout.findViewById<ImageView>(R.id.secondMoverImageView).visibility = View.VISIBLE
+                    watchLayout.findViewById<ImageView>(R.id.neonBgDayZoneImageView).visibility = View.VISIBLE
+                    watchLayout.findViewById<TextView>(R.id.dayTextView).setTextColor(
+                        ContextCompat.getColor(
+                            applicationContext,
+                            R.color.default_bg
+                        )
+                    )
+                    watchLayout.findViewById<TextView>(R.id.monthTextView).setTextColor(
+                        ContextCompat.getColor(
+                            applicationContext,
+                            digitalNeonWatchFaceStyle.theme.labelColor
+                        )
+                    )
+                    watchLayout.findViewById<TextView>(R.id.weekDayTextView).setTextColor(
+                        ContextCompat.getColor(
+                            applicationContext,
+                            digitalNeonWatchFaceStyle.theme.labelColor
+                        )
+                    )
+                    watchLayout.findViewById<TextView>(R.id.hourTextView).apply {
+                        setTextColor(
+                            ContextCompat.getColor(
+                                applicationContext,
+                                digitalNeonWatchFaceStyle.theme.labelColor
+                            )
+                        )
+                        setShadowLayer(8f, 0f, 0f, ContextCompat.getColor(applicationContext, R.color.hour_shade))
+                    }
+                    watchLayout.findViewById<TextView>(R.id.minuteTextView).apply {
+                        setTextColor(
+                            ContextCompat.getColor(
+                                applicationContext,
+                                digitalNeonWatchFaceStyle.theme.labelColor
+                            )
+                        )
+                        textSize = digitalNeonWatchFaceStyle.font.minuteSize.toFloat()
+                        scaleX = 1.5f
+                        scaleY = 1.5f
+                        layoutParams = LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            resources.getDimension(R.dimen.time_layout_minute_height).toInt()
+                        )
+                    }
+                    val params = watchLayout.findViewById<TextView>(R.id.minuteTextView).getLayoutParams() as LinearLayout.LayoutParams
+                    params.setMargins(0, 0, 0, 0)
+                    watchLayout.findViewById<TextView>(R.id.minuteTextView).setLayoutParams(params)
+
+                    watchLayout.findViewById<TextView>(R.id.secondTextView).visibility = View.VISIBLE
+                    watchLayout.findViewById<ImageView>(R.id.neonBgHrmZoneImageView).visibility = View.VISIBLE
+                    watchLayout.findViewById<ImageView>(R.id.hrmIconImageView).visibility = View.VISIBLE
+                    watchLayout.findViewById<TextView>(R.id.hrmTextView).visibility = View.VISIBLE
+                    watchLayout.findViewById<ImageView>(R.id.neonBgStepZoneImageView).visibility = View.VISIBLE
+                    watchLayout.findViewById<ImageView>(R.id.stepIconImageView).visibility = View.VISIBLE
+                    watchLayout.findViewById<TextView>(R.id.stepTextView).visibility = View.VISIBLE
+                    watchLayout.findViewById<ImageView>(R.id.appLauncherImageView).visibility = View.VISIBLE
+                }
+            }
         }
 
         override fun onInterruptionFilterChanged(interruptionFilter: Int) {
@@ -481,16 +609,51 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
             val batteryStatus = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_STATUS)
             val batteryText = watchLayout.findViewById<TextView>(R.id.batteryTextView)
 
-            when (batteryStatus) {
-                BatteryManager.BATTERY_STATUS_CHARGING -> batteryText.setTextColor(ContextCompat.getColor(applicationContext, R.color.battery_charging))
-                else -> when (batteryLevel == 100) {
-                    true -> batteryText.setTextColor(ContextCompat.getColor(applicationContext, R.color.battery_full))
-                    false -> when ((batteryLevel/10)%10) {
-                        0, 1, 2 -> batteryText.setTextColor(ContextCompat.getColor(applicationContext, R.color.battery_empty))
-                        3, 4, 5, 6, 7 -> batteryText.setTextColor(ContextCompat.getColor(applicationContext, R.color.battery_middle))
-                        else -> batteryText.setTextColor(ContextCompat.getColor(applicationContext, R.color.battery_high))
+            when (ambient) {
+                false -> {
+                    when (batteryStatus) {
+                        BatteryManager.BATTERY_STATUS_CHARGING -> batteryText.setTextColor(
+                            ContextCompat.getColor(
+                                applicationContext,
+                                R.color.battery_charging
+                            )
+                        )
+                        else -> when (batteryLevel == 100) {
+                            true -> batteryText.setTextColor(
+                                ContextCompat.getColor(
+                                    applicationContext,
+                                    R.color.battery_full
+                                )
+                            )
+                            false -> when ((batteryLevel / 10) % 10) {
+                                0, 1, 2 -> batteryText.setTextColor(
+                                    ContextCompat.getColor(
+                                        applicationContext,
+                                        R.color.battery_empty
+                                    )
+                                )
+                                3, 4, 5, 6, 7 -> batteryText.setTextColor(
+                                    ContextCompat.getColor(
+                                        applicationContext,
+                                        R.color.battery_middle
+                                    )
+                                )
+                                else -> batteryText.setTextColor(
+                                    ContextCompat.getColor(
+                                        applicationContext,
+                                        R.color.battery_high
+                                    )
+                                )
+                            }
+                        }
                     }
                 }
+                true -> batteryText.setTextColor(
+                    ContextCompat.getColor(
+                        applicationContext,
+                        R.color.ambient_mode_text
+                    )
+                )
             }
 
             batteryText.text = "${batteryLevel}%"
