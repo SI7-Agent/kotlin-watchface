@@ -5,16 +5,14 @@
     <color name='theme4'>#FF3EBC2C</color>
 
     <color name="hour_shade">#FF0000FF</color>
-    <color name="minute_shade">#FFFFFFFF</color>
-    <color name="second_shade">#FFFFFFFF</color>
 
     <color name="default_bg">#FF000000</color>
     <color name="default_bg2">#FFFFFFFF</color>
     <color name="default_debug_bg">#30FF0000</color>
 
-    <color name="battery_full">#0DFC35</color>
-    <color name="battery_high">#12C42C</color>
-    <color name="battery_middle">#BAC42C</color>
-    <color name="battery_empty">#800925</color>
-    <color name="battery_charging">#15CEEB</color>
+    <color name="battery_full">#FF0DFC35</color>
+    <color name="battery_high">#FF12C42C</color>
+    <color name="battery_middle">#FFBAC42C</color>
+    <color name="battery_empty">#FF800925</color>
+    <color name="battery_charging">#FF15CEEB</color>
 </resources>

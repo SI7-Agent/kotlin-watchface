@@ -215,13 +215,13 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
             minuteText.typeface = resources.getFont(digitalNeonWatchFaceStyle.font.font)
             minuteText.textSize = digitalNeonWatchFaceStyle.font.minuteSize.toFloat()
             minuteText.setTextColor(ContextCompat.getColor(applicationContext, digitalNeonWatchFaceStyle.theme.labelColor))
-            minuteText.setShadowLayer(3f, 0f, 0f, ContextCompat.getColor(applicationContext, R.color.minute_shade))
+            minuteText.setShadowLayer(3f, 0f, 0f, ContextCompat.getColor(applicationContext, digitalNeonWatchFaceStyle.theme.labelColor))
 
             val secondText = watchLayout.findViewById<TextView>(R.id.secondTextView)
             secondText.typeface = resources.getFont(digitalNeonWatchFaceStyle.font.font)
             secondText.textSize = digitalNeonWatchFaceStyle.font.secondSize.toFloat()
             secondText.setTextColor(ContextCompat.getColor(applicationContext, digitalNeonWatchFaceStyle.theme.labelColor))
-            secondText.setShadowLayer(3f, 0f, 0f, ContextCompat.getColor(applicationContext, R.color.second_shade))
+            secondText.setShadowLayer(3f, 0f, 0f, ContextCompat.getColor(applicationContext, digitalNeonWatchFaceStyle.theme.labelColor))
 
             val dayText = watchLayout.findViewById<TextView>(R.id.dayTextView)
             dayText.setTypeface(resources.getFont(digitalNeonWatchFaceStyle.font.font), Typeface.BOLD)
