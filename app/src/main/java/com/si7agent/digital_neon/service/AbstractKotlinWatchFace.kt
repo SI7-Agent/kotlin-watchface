@@ -511,11 +511,17 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
 
         private fun drawWatchFace(canvas: Canvas) {
             tools.clearCanvas(canvas)
+            val h = calendar.get(Calendar.HOUR_OF_DAY)
+            val m = calendar.get(Calendar.MINUTE)
+            val s = calendar.get(Calendar.SECOND)
+            val mth = calendar.get(Calendar.MONTH)
+            val wd = calendar.get(Calendar.DAY_OF_WEEK)
+            val d = calendar.get(Calendar.DAY_OF_MONTH)
 
             setGraphic()
-            setTime()
-            setSecondMover(calendar.get(Calendar.SECOND))
-            setDate()
+            setTime(h, m, s)
+            setSecondMover(s)
+            setDate(wd, mth, d)
             setSensorValue()
             setBattery()
 
@@ -523,12 +529,18 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
             watchLayout.layout(0, 0, watchLayout.measuredWidth, watchLayout.measuredHeight)
             watchLayout.draw(canvas)
 
-            when (calendar.get(Calendar.HOUR_OF_DAY)) {
-                0 -> {
-                    previousTotalSteps = totalSteps
-                    isStepSensorReseted = true
+            when (m == 0 && s == 0) {
+                true -> when (h) {
+                    0 -> {
+                        previousTotalSteps = totalSteps
+                        isStepSensorReseted = true
+                    }
+                    2 -> sensorManager?.registerListener(
+                        this,
+                        hrmSensor,
+                        SensorManager.SENSOR_DELAY_NORMAL
+                    )
                 }
-                2 -> sensorManager?.registerListener(this, hrmSensor, SensorManager.SENSOR_DELAY_NORMAL)
             }
         }
 
@@ -562,20 +574,20 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
             watchSixty.setImageBitmap(watch)
         }
 
-        private fun setTime() {
+        private fun setTime(h: Int, m: Int, s: Int) {
             val hourText = watchLayout.findViewById<TextView>(R.id.hourTextView)
-            hourText.text = tools.intToStr(calendar.get(Calendar.HOUR_OF_DAY))
+            hourText.text = tools.intToStr(h)
 
             val minuteText = watchLayout.findViewById<TextView>(R.id.minuteTextView)
-            minuteText.text = tools.intToStr(calendar.get(Calendar.MINUTE))
+            minuteText.text = tools.intToStr(m)
 
             val secondText = watchLayout.findViewById<TextView>(R.id.secondTextView)
-            secondText.text = tools.intToStr(calendar.get(Calendar.SECOND))
+            secondText.text = tools.intToStr(s)
         }
 
-        private fun setSecondMover(sec: Int) {
+        private fun setSecondMover(s: Int) {
             val secondMoverImageView = watchLayout.findViewById<ImageView>(R.id.secondMoverImageView)
-            val backCountedSeconds = if (sec>14) sec-15 else 60+sec-15
+            val backCountedSeconds = if (s>14) s-15 else 60+s-15
 
             val radiusX = (screenSize["width"]!! - resources.getDimension(R.dimen.neon_bg_second_mover_icon_width))/2
             val radiusY = (screenSize["height"]!! - resources.getDimension(R.dimen.neon_bg_second_mover_icon_height))/2
@@ -584,15 +596,15 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
             secondMoverImageView.translationY = radiusY + radiusY*sin(toRadians(6.0*backCountedSeconds)).toFloat()
         }
 
-        private fun setDate() {
+        private fun setDate(wd: Int, mth: Int, d: Int) {
             val weekDayText = watchLayout.findViewById<TextView>(R.id.weekDayTextView)
-            weekDayText.text = resources.getStringArray(R.array.week_days)[calendar.get(Calendar.DAY_OF_WEEK) - 1]
+            weekDayText.text = resources.getStringArray(R.array.week_days)[wd - 1]
 
             val monthText = watchLayout.findViewById<TextView>(R.id.monthTextView)
-            monthText.text = resources.getStringArray(R.array.months)[calendar.get(Calendar.MONTH)]
+            monthText.text = resources.getStringArray(R.array.months)[mth]
 
             val dayText = watchLayout.findViewById<TextView>(R.id.dayTextView)
-            dayText.text = calendar.get(Calendar.DAY_OF_MONTH).toString()
+            dayText.text = d.toString()
         }
 
         private fun setSensorValue() {
