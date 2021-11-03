@@ -531,10 +531,7 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
 
             when (m == 0 && s == 0) {
                 true -> when (h) {
-                    0 -> {
-                        previousTotalSteps = totalSteps
-                        isStepSensorReseted = true
-                    }
+                    0 -> isStepSensorReseted = false
                     2 -> sensorManager?.registerListener(
                         this,
                         hrmSensor,
