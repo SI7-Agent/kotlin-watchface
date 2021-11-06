@@ -118,7 +118,7 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
                 Sensor.TYPE_STEP_COUNTER -> {
                     if (!isStepSensorReseted) {
                         previousTotalSteps = event.values[0]
-                        isStepSensorReseted = true
+                        isStepSensorReseted = !isStepSensorReseted
                     }
 
                     if (isStepSensorRunning) {
@@ -140,6 +140,12 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
                 }
                 else -> Log.d(TAG, "unknown sensor event defined")
             }
+        }
+
+        private fun resetStepSensor() {
+            isStepSensorReseted = false
+            previousTotalSteps = totalSteps
+            watchLayout.findViewById<TextView>(R.id.stepTextView).text = "0"
         }
 
         override fun onCreate(holder: SurfaceHolder) {
@@ -529,15 +535,13 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
             watchLayout.layout(0, 0, watchLayout.measuredWidth, watchLayout.measuredHeight)
             watchLayout.draw(canvas)
 
-            when (m == 0 && s == 0) {
-                true -> when (h) {
-                    0 -> isStepSensorReseted = false
-                    2 -> sensorManager?.registerListener(
+            when {
+                s == 0 && m == 0 && h == 0 -> resetStepSensor()
+                s == 0 && m == 0 && h == 2 -> sensorManager?.registerListener(
                         this,
                         hrmSensor,
                         SensorManager.SENSOR_DELAY_NORMAL
                     )
-                }
             }
         }
 
