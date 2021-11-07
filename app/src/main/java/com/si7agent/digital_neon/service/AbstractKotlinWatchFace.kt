@@ -84,6 +84,7 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
         private var totalSteps = 0f
         private var previousTotalSteps = 0f
         private var hrmValue = 0f
+        private var curDay = 0
 
         private lateinit var themeResources: MutableMap<String, MutableMap<String, Bitmap>>
 
@@ -142,6 +143,13 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
             }
         }
 
+        private fun getDay(): Int {
+            val currentTime = System.currentTimeMillis()
+            calendar.timeInMillis = currentTime
+
+            return calendar.get(Calendar.DAY_OF_MONTH)
+        }
+
         private fun resetStepSensor() {
             isStepSensorReseted = false
             previousTotalSteps = totalSteps
@@ -159,6 +167,7 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
             )
 
             calendar = Calendar.getInstance()
+            curDay = getDay()
 
             initializeLayout()
             initializeThemeImages()
@@ -531,18 +540,18 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
             setSensorValue()
             setBattery()
 
+//            when {
+//                s == 0 && m == 0 && h == 0 -> resetStepSensor()
+//                s == 0 && m == 0 && h == 2 -> sensorManager?.registerListener(
+//                    this,
+//                    hrmSensor,
+//                    SensorManager.SENSOR_DELAY_NORMAL
+//                )
+//            }
+
             watchLayout.measure(specW, specH)
             watchLayout.layout(0, 0, watchLayout.measuredWidth, watchLayout.measuredHeight)
             watchLayout.draw(canvas)
-
-            when {
-                s == 0 && m == 0 && h == 0 -> resetStepSensor()
-                s == 0 && m == 0 && h == 2 -> sensorManager?.registerListener(
-                        this,
-                        hrmSensor,
-                        SensorManager.SENSOR_DELAY_NORMAL
-                    )
-            }
         }
 
         private fun setGraphic() {
@@ -678,6 +687,17 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
             if (visible) {
                 registerReceiver()
                 calendar.timeZone = TimeZone.getDefault()
+
+                if (curDay != getDay()) {
+                    resetStepSensor()
+                    sensorManager?.registerListener(
+                        this,
+                        hrmSensor,
+                        SensorManager.SENSOR_DELAY_NORMAL
+                    )
+                    curDay = getDay()
+                }
+
                 invalidate()
             } else {
                 unregisterReceiver()
@@ -769,6 +789,8 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
 
         private fun updateTimer() {
             updateTimeHandler.removeMessages(MSG_UPDATE_TIME)
+
+            Log.d(TAG, "updateTimer: $isVisible")
             if (shouldTimerBeRunning()) {
                 updateTimeHandler.sendEmptyMessage(MSG_UPDATE_TIME)
             }
