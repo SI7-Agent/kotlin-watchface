@@ -25,6 +25,7 @@ import com.si7agent.digital_neon.R
 import com.si7agent.digital_neon.model.DigitalNeonWatchFaceStyle
 import com.si7agent.digital_neon.model.WatchFaceBackgroundImage
 import com.si7agent.digital_neon.RequestActivity
+import com.si7agent.digital_neon.service.DayChangedBroadcastReceiver
 import java.lang.Math.toRadians
 import java.lang.ref.WeakReference
 import java.util.*
@@ -32,8 +33,8 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 private const val INTERACTIVE_UPDATE_RATE_MS = 1000
+
 private const val MSG_UPDATE_TIME = 0
-private const val MSG_RESET_SENSOR = 1
 private const val DOUBLE_TAP_DELAY = 250
 
 private const val LAST_FONT = 4
@@ -69,7 +70,6 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
             if (engine != null) {
                 when (msg.what) {
                     com.si7agent.digital_neon.service.MSG_UPDATE_TIME -> engine.handleUpdateTimeMessage()
-                    com.si7agent.digital_neon.service.MSG_RESET_SENSOR -> engine.handleResetSensor()
                 }
             }
         }
@@ -87,11 +87,11 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
         private var totalSteps = 0f
         private var previousTotalSteps = 0f
         private var hrmValue = 0f
-//        private var curDay = 0
 
         private lateinit var themeResources: MutableMap<String, MutableMap<String, Bitmap>>
 
         private var registeredTimeZoneReceiver = false
+        private var registeredDateReceiver = false
         private val updateTimeHandler = EngineHandler(this)
         private lateinit var calendar: Calendar
         private lateinit var screenSize: MutableMap<String, Int>
@@ -105,6 +105,17 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
         private var ambient: Boolean = false
         private var lowBitAmbient: Boolean = false
         private var muteMode: Boolean = false
+
+        private val dateReceiver = object : DayChangedBroadcastReceiver() {
+            override fun onDayChanged() {
+                resetStepSensor()
+                sensorManager?.registerListener(
+                    returnUpperEnginePointer(),
+                    hrmSensor,
+                    SensorManager.SENSOR_DELAY_NORMAL
+                )
+            }
+        }
 
         private val timeZoneReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
@@ -146,31 +157,8 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
             }
         }
 
-//        private fun getDay(): Int {
-//            val currentTime = System.currentTimeMillis()
-//            calendar.timeInMillis = currentTime
-//
-//            return calendar.get(Calendar.DAY_OF_MONTH)
-//        }
-
-        private fun checkSensorReset() {
-            val currentTime = System.currentTimeMillis()
-            calendar.timeInMillis = currentTime
-
-            val h = calendar.get(Calendar.HOUR_OF_DAY)
-
-            if (h == 0)
-                if (isStepSensorResetedSeveralTimeOneDay) {
-                    resetStepSensor()
-                    sensorManager?.registerListener(
-                        this,
-                        hrmSensor,
-                        SensorManager.SENSOR_DELAY_NORMAL
-                    )
-                    isStepSensorResetedSeveralTimeOneDay = !isStepSensorResetedSeveralTimeOneDay
-                }
-            else
-                isStepSensorResetedSeveralTimeOneDay = false
+        private fun returnUpperEnginePointer(): Engine {
+            return this
         }
 
         private fun resetStepSensor() {
@@ -190,12 +178,12 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
             )
 
             calendar = Calendar.getInstance()
-//            curDay = getDay()
 
             initializeLayout()
             initializeThemeImages()
             initializeBackground()
             initializeWatchFace()
+            registerDateReceiver()
         }
 
         private fun initializeSensors() {
@@ -563,15 +551,6 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
             setSensorValue()
             setBattery()
 
-//            when {
-//                s == 0 && m == 0 && h == 0 -> resetStepSensor()
-//                s == 0 && m == 0 && h == 2 -> sensorManager?.registerListener(
-//                    this,
-//                    hrmSensor,
-//                    SensorManager.SENSOR_DELAY_NORMAL
-//                )
-//            }
-
             watchLayout.measure(specW, specH)
             watchLayout.layout(0, 0, watchLayout.measuredWidth, watchLayout.measuredHeight)
             watchLayout.draw(canvas)
@@ -710,17 +689,6 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
             if (visible) {
                 registerReceiver()
                 calendar.timeZone = TimeZone.getDefault()
-
-//                if (curDay != getDay()) {
-//                    resetStepSensor()
-//                    sensorManager?.registerListener(
-//                        this,
-//                        hrmSensor,
-//                        SensorManager.SENSOR_DELAY_NORMAL
-//                    )
-//                    curDay = getDay()
-//                }
-
                 invalidate()
             } else {
                 unregisterReceiver()
@@ -810,16 +778,27 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
             this@AbstractKotlinWatchFace.unregisterReceiver(timeZoneReceiver)
         }
 
+        private fun registerDateReceiver() {
+            if (registeredDateReceiver) {
+                return
+            }
+            registeredDateReceiver = true
+            this@AbstractKotlinWatchFace.registerReceiver(dateReceiver, DayChangedBroadcastReceiver.getIntentFilter())
+        }
+
+        private fun unregisterDateReceiver() {
+            if (!registeredDateReceiver) {
+                return
+            }
+            registeredDateReceiver = false
+            this@AbstractKotlinWatchFace.unregisterReceiver(dateReceiver)
+        }
+
         private fun updateTimer() {
             updateTimeHandler.removeMessages(MSG_UPDATE_TIME)
-            updateTimeHandler.removeMessages(MSG_RESET_SENSOR)
 
-            Log.d(TAG, "updateTimer: $isVisible")
             if (shouldTimerBeRunning()) {
                 updateTimeHandler.sendEmptyMessage(MSG_UPDATE_TIME)
-            }
-            else {
-                updateTimeHandler.sendEmptyMessage(MSG_RESET_SENSOR)
             }
         }
 
@@ -833,16 +812,6 @@ abstract class AbstractKotlinWatchFace : CanvasWatchFaceService() {
                 val timeMs = System.currentTimeMillis()
                 val delayMs = INTERACTIVE_UPDATE_RATE_MS - timeMs % INTERACTIVE_UPDATE_RATE_MS
                 updateTimeHandler.sendEmptyMessageDelayed(MSG_UPDATE_TIME, delayMs)
-            }
-        }
-
-        fun handleResetSensor() {
-            if (!shouldTimerBeRunning()) {
-                val timeMs = System.currentTimeMillis()
-                val delayMs = 1800*(INTERACTIVE_UPDATE_RATE_MS - timeMs % INTERACTIVE_UPDATE_RATE_MS)
-                updateTimeHandler.sendEmptyMessageDelayed(MSG_RESET_SENSOR, delayMs)
-
-                checkSensorReset()
             }
         }
     }
