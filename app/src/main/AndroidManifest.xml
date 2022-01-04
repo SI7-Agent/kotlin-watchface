@@ -21,6 +21,14 @@
         android:supportsRtl="true"
         android:theme="@android:style/Theme.DeviceDefault" >
 
+<!--        <receiver-->
+<!--            android:name=".service.DayChangedBroadcastReceiver"-->
+<!--            android:exported="false">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.DATE_CHANGED" />-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
+
         <meta-data
             android:name="com.google.android.wearable.standalone"
             android:value="true" />
@@ -48,6 +56,7 @@
                 android:resource="@drawable/digital_neon_preview" />
 
             <intent-filter>
+                <action android:name="android.intent.action.DATE_CHANGED" />
                 <action android:name="android.service.wallpaper.WallpaperService" />
                 <category android:name="com.google.android.wearable.watchface.category.WATCH_FACE" />
             </intent-filter>

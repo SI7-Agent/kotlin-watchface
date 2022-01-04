@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.util.Log
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -15,7 +16,7 @@ abstract class DayChangedBroadcastReceiver: BroadcastReceiver() {
         val action = intent.action
         val currentDate = Date()
 
-        if((action == Intent.ACTION_DATE_CHANGED || action == Intent.ACTION_TIME_CHANGED || action == Intent.ACTION_TIMEZONE_CHANGED) && !isSameDay(currentDate)) {
+        if((action == Intent.ACTION_DATE_CHANGED /*|| action == Intent.ACTION_TIME_CHANGED || action == Intent.ACTION_TIMEZONE_CHANGED*/) && !isSameDay(currentDate)) {
             date = currentDate
             onDayChanged()
         }
@@ -27,8 +28,8 @@ abstract class DayChangedBroadcastReceiver: BroadcastReceiver() {
 
     companion object {
         fun getIntentFilter() = IntentFilter().apply {
-            addAction(Intent.ACTION_TIME_CHANGED)
-            addAction(Intent.ACTION_TIMEZONE_CHANGED)
+//            addAction(Intent.ACTION_TIME_CHANGED)
+//            addAction(Intent.ACTION_TIMEZONE_CHANGED)
             addAction(Intent.ACTION_DATE_CHANGED)
         }
     }
